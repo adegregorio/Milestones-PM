@@ -174,7 +174,6 @@
     </types>
     <types>
         <members>Add A Task</members>
-        <members>Add A Task %28alias---task%29</members>
         <name>HomePageComponent</name>
     </types>
     <types>
@@ -239,5 +238,5 @@
         <members>ja</members>
         <name>Translations</name>
     </types>
-    <version>23.0</version>
+    <version>31.0</version>
 </Package>
