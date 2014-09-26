@@ -34,6 +34,10 @@
         <name>Alias__c</name>
     </fields>
     <fields>
+        <label><!-- Billable Hours --></label>
+        <name>Billable_Hours__c</name>
+    </fields>
+    <fields>
         <help><!-- How many tasks are blocked in sub-milestones? --></help>
         <label><!-- Blocked Tasks (in Sub-Milestones) --></label>
         <name>Blocked_Tasks_in_Sub_Milestones__c</name>
@@ -141,6 +145,10 @@
     <fields>
         <label><!-- NameClean --></label>
         <name>NameClean__c</name>
+    </fields>
+    <fields>
+        <label><!-- Non Billable Hours --></label>
+        <name>Non_Billable_Hours__c</name>
     </fields>
     <fields>
         <label><!-- Okay to Reparent --></label>

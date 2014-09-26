@@ -30,6 +30,10 @@
         <name>Alias__c</name>
     </fields>
     <fields>
+        <label><!-- Billable Hours --></label>
+        <name>Billable_Hours__c</name>
+    </fields>
+    <fields>
         <help>ブロックされている子マイルストーンのタスク</help>
         <label>ブロックされたタスク（サブマイルストーンから）</label>
         <name>Blocked_Tasks_in_Sub_Milestones__c</name>
@@ -137,6 +141,10 @@
     <fields>
         <label>名前</label>
         <name>NameClean__c</name>
+    </fields>
+    <fields>
+        <label><!-- Non Billable Hours --></label>
+        <name>Non_Billable_Hours__c</name>
     </fields>
     <fields>
         <label>親プロジェクト変更可否</label>

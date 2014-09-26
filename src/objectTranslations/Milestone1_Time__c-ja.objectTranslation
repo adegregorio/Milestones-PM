@@ -5,6 +5,10 @@
         <value>Time</value>
     </caseValues>
     <fields>
+        <label><!-- Billable --></label>
+        <name>Billable__c</name>
+    </fields>
+    <fields>
         <help>この時間が発生した日時。デフォルトではその日が入る。</help>
         <label>発生日</label>
         <name>Date__c</name>
@@ -40,6 +44,10 @@
         <sections>
             <label><!-- Custom Links --></label>
             <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Description --></label>
+            <section>Description</section>
         </sections>
     </layouts>
     <layouts>

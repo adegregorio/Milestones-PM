@@ -186,6 +186,14 @@
                 <behavior>Readonly</behavior>
                 <field>Actual_Hours_From_Sub_Milestones__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Billable_Hours__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Non_Billable_Hours__c</field>
+            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
     </layoutSections>

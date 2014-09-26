@@ -69,6 +69,21 @@
         <type>Lookup</type>
     </fields>
     <fields>
+        <fullName>Billable_Hours__c</fullName>
+        <externalId>false</externalId>
+        <label>Billable Hours</label>
+        <summarizedField>Milestone1_Time__c.Hours__c</summarizedField>
+        <summaryFilterItems>
+            <field>Milestone1_Time__c.Billable__c</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </summaryFilterItems>
+        <summaryForeignKey>Milestone1_Time__c.Project_Task__c</summaryForeignKey>
+        <summaryOperation>sum</summaryOperation>
+        <trackTrending>false</trackTrending>
+        <type>Summary</type>
+    </fields>
+    <fields>
         <fullName>Blocked_Reason__c</fullName>
         <externalId>false</externalId>
         <inlineHelpText>If blocked, why?</inlineHelpText>
@@ -252,9 +267,9 @@
     <fields>
         <fullName>Hours_Balance__c</fullName>
         <externalId>false</externalId>
-        <formula>Estimated_Hours__c - Total_Hours__c</formula>
+        <formula>Estimated_Hours__c - Billable_Hours__c</formula>
         <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
-        <inlineHelpText>Calculated as estimated hours - total hours</inlineHelpText>
+        <inlineHelpText>Calculated as estimated hours - billable hours</inlineHelpText>
         <label>Hours Balance</label>
         <precision>18</precision>
         <required>false</required>
@@ -318,6 +333,21 @@
         <trackTrending>false</trackTrending>
         <type>Text</type>
         <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Non_Billable_Hours__c</fullName>
+        <externalId>false</externalId>
+        <label>Non Billable Hours</label>
+        <summarizedField>Milestone1_Time__c.Hours__c</summarizedField>
+        <summaryFilterItems>
+            <field>Milestone1_Time__c.Billable__c</field>
+            <operation>equals</operation>
+            <value>False</value>
+        </summaryFilterItems>
+        <summaryForeignKey>Milestone1_Time__c.Project_Task__c</summaryForeignKey>
+        <summaryOperation>sum</summaryOperation>
+        <trackTrending>false</trackTrending>
+        <type>Summary</type>
     </fields>
     <fields>
         <fullName>Overall_Status__c</fullName>
@@ -548,8 +578,19 @@
     <label>Task</label>
     <listViews>
         <fullName>All</fullName>
+        <columns>NAME</columns>
+        <columns>Project__c</columns>
+        <columns>Priority__c</columns>
+        <columns>Class__c</columns>
+        <columns>Task_Stage__c</columns>
+        <columns>Due_Date__c</columns>
+        <columns>Complete__c</columns>
+        <columns>Blocked__c</columns>
+        <columns>Hours_Balance__c</columns>
+        <columns>Assigned_To__c</columns>
         <filterScope>Everything</filterScope>
         <label>All</label>
+        <language>en_US</language>
     </listViews>
     <nameField>
         <label>Project Task Name</label>

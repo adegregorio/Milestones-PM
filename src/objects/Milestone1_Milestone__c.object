@@ -121,6 +121,16 @@
         <unique>true</unique>
     </fields>
     <fields>
+        <fullName>Billable_Hours__c</fullName>
+        <externalId>false</externalId>
+        <label>Billable Hours</label>
+        <summarizedField>Milestone1_Task__c.Billable_Hours__c</summarizedField>
+        <summaryForeignKey>Milestone1_Task__c.Project_Milestone__c</summaryForeignKey>
+        <summaryOperation>sum</summaryOperation>
+        <trackTrending>false</trackTrending>
+        <type>Summary</type>
+    </fields>
+    <fields>
         <fullName>Blocked_Tasks_in_Sub_Milestones__c</fullName>
         <defaultValue>0</defaultValue>
         <externalId>false</externalId>
@@ -406,6 +416,16 @@
         <trackTrending>false</trackTrending>
         <type>Text</type>
         <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Non_Billable_Hours__c</fullName>
+        <externalId>false</externalId>
+        <label>Non Billable Hours</label>
+        <summarizedField>Milestone1_Task__c.Non_Billable_Hours__c</summarizedField>
+        <summaryForeignKey>Milestone1_Task__c.Project_Milestone__c</summaryForeignKey>
+        <summaryOperation>sum</summaryOperation>
+        <trackTrending>false</trackTrending>
+        <type>Summary</type>
     </fields>
     <fields>
         <fullName>Okay_to_Reparent__c</fullName>

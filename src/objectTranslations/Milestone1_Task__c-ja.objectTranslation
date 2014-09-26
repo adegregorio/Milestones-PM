@@ -11,6 +11,10 @@
         <relationshipLabel>タスク</relationshipLabel>
     </fields>
     <fields>
+        <label><!-- Billable Hours --></label>
+        <name>Billable_Hours__c</name>
+    </fields>
+    <fields>
         <help>ブロックされた理由</help>
         <label>理由</label>
         <name>Blocked_Reason__c</name>
@@ -133,6 +137,10 @@
     <fields>
         <label>大元のマイルストーン</label>
         <name>Milestone_Grandparent__c</name>
+    </fields>
+    <fields>
+        <label><!-- Non Billable Hours --></label>
+        <name>Non_Billable_Hours__c</name>
     </fields>
     <fields>
         <help>タスクが完了、進行中、遅延、ブロックまたは、遅延ブロックされていることを示す</help>

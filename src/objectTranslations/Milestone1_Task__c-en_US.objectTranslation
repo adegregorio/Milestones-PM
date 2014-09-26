@@ -15,6 +15,10 @@
         <relationshipLabel><!-- Tasks --></relationshipLabel>
     </fields>
     <fields>
+        <label><!-- Billable Hours --></label>
+        <name>Billable_Hours__c</name>
+    </fields>
+    <fields>
         <help><!-- If blocked, why? --></help>
         <label><!-- Reason --></label>
         <name>Blocked_Reason__c</name>
@@ -113,7 +117,7 @@
         <name>Expense_Balance__c</name>
     </fields>
     <fields>
-        <help><!-- Calculated as estimated hours - total hours --></help>
+        <help><!-- Calculated as estimated hours - billable hours --></help>
         <label><!-- Hours Balance --></label>
         <name>Hours_Balance__c</name>
     </fields>
@@ -137,6 +141,10 @@
     <fields>
         <label><!-- Milestone Grandparent --></label>
         <name>Milestone_Grandparent__c</name>
+    </fields>
+    <fields>
+        <label><!-- Non Billable Hours --></label>
+        <name>Non_Billable_Hours__c</name>
     </fields>
     <fields>
         <help><!-- Calculated field indicating if the task is complete, open, late, blocked or late and blocked. --></help>
