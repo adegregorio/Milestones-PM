@@ -94,10 +94,6 @@
             <translation>完了</translation>
         </picklistValues>
         <picklistValues>
-            <masterLabel>Inactive</masterLabel>
-            <translation>非アクティブ</translation>
-        </picklistValues>
-        <picklistValues>
             <masterLabel>On Hold</masterLabel>
             <translation>保留</translation>
         </picklistValues>

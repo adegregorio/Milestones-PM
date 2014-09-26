@@ -26,19 +26,47 @@
     </fields>
     <fields>
         <help><!-- Classify this task as appropriate for your use. --></help>
-        <label><!-- Class --></label>
+        <label><!-- Type --></label>
         <name>Class__c</name>
         <picklistValues>
-            <masterLabel>Ad Hoc</masterLabel>
-            <translation><!-- Ad Hoc --></translation>
+            <masterLabel>Bug</masterLabel>
+            <translation><!-- Bug --></translation>
         </picklistValues>
         <picklistValues>
-            <masterLabel>Defect</masterLabel>
-            <translation><!-- Defect --></translation>
+            <masterLabel>Configuration</masterLabel>
+            <translation><!-- Configuration --></translation>
         </picklistValues>
         <picklistValues>
-            <masterLabel>Rework</masterLabel>
-            <translation><!-- Rework --></translation>
+            <masterLabel>Consulting</masterLabel>
+            <translation><!-- Consulting --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Data</masterLabel>
+            <translation><!-- Data --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Design</masterLabel>
+            <translation><!-- Design --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Development</masterLabel>
+            <translation><!-- Development --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Documentation</masterLabel>
+            <translation><!-- Documentation --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Research</masterLabel>
+            <translation><!-- Research --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Testing</masterLabel>
+            <translation><!-- Testing --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>User story</masterLabel>
+            <translation><!-- User story --></translation>
         </picklistValues>
     </fields>
     <fields>
@@ -134,24 +162,24 @@
         <label><!-- Priority --></label>
         <name>Priority__c</name>
         <picklistValues>
-            <masterLabel>0</masterLabel>
-            <translation><!-- 0 --></translation>
+            <masterLabel>Blocker</masterLabel>
+            <translation><!-- Blocker --></translation>
         </picklistValues>
         <picklistValues>
-            <masterLabel>1</masterLabel>
-            <translation><!-- 1 --></translation>
+            <masterLabel>High</masterLabel>
+            <translation><!-- High --></translation>
         </picklistValues>
         <picklistValues>
-            <masterLabel>2</masterLabel>
-            <translation><!-- 2 --></translation>
+            <masterLabel>Low</masterLabel>
+            <translation><!-- Low --></translation>
         </picklistValues>
         <picklistValues>
-            <masterLabel>3</masterLabel>
-            <translation><!-- 3 --></translation>
+            <masterLabel>Medium</masterLabel>
+            <translation><!-- Medium --></translation>
         </picklistValues>
         <picklistValues>
-            <masterLabel>4</masterLabel>
-            <translation><!-- 4 --></translation>
+            <masterLabel>Urgent</masterLabel>
+            <translation><!-- Urgent --></translation>
         </picklistValues>
     </fields>
     <fields>
@@ -193,12 +221,12 @@
         <label><!-- Stage --></label>
         <name>Task_Stage__c</name>
         <picklistValues>
-            <masterLabel>Close</masterLabel>
-            <translation><!-- Close --></translation>
-        </picklistValues>
-        <picklistValues>
             <masterLabel>Closed</masterLabel>
             <translation><!-- Closed --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>For review</masterLabel>
+            <translation><!-- For review --></translation>
         </picklistValues>
         <picklistValues>
             <masterLabel>In Progress</masterLabel>
