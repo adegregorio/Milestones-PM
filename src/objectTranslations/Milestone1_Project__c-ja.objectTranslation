@@ -167,7 +167,7 @@
         <name>Total_Open_Task_Count__c</name>
     </fields>
     <layouts>
-        <layout>Project Layout</layout>
+        <layout>Complete Project Layout</layout>
         <sections>
             <label><!-- Budgets --></label>
             <section>Budgets</section>
@@ -187,6 +187,29 @@
         <sections>
             <label><!-- Metrics: Milestone Information (Calculated) --></label>
             <section>Metrics: Milestone Information (Calculated)</section>
+        </sections>
+        <sections>
+            <label><!-- Project Milestones Gantt View --></label>
+            <section>Project Milestones Gantt View</section>
+        </sections>
+        <sections>
+            <label><!-- Status at a Glance --></label>
+            <section>Status at a Glance</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Simple Project Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Description --></label>
+            <section>Description</section>
+        </sections>
+        <sections>
+            <label><!-- Metrics --></label>
+            <section>Metrics</section>
         </sections>
         <sections>
             <label><!-- Project Milestones Gantt View --></label>

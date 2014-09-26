@@ -220,22 +220,41 @@
         <name>Total_Hours__c</name>
     </fields>
     <layouts>
-        <layout>Project Task Layout</layout>
+        <layout>Complete Project Task Layout</layout>
         <sections>
-            <label>ブロック</label>
+            <label><!-- Blocked --></label>
             <section>Blocked</section>
         </sections>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Estimates --></label>
+            <section>Estimates</section>
+        </sections>
+        <sections>
+            <label><!-- Metrics: Hours &amp; Expenses --></label>
+            <section>Metrics: Hours &amp; Expenses</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Simple Project Task Layout</layout>
         <sections>
             <label>カスタムリンク</label>
             <section>Custom Links</section>
         </sections>
         <sections>
-            <label>推定</label>
-            <section>Estimates</section>
+            <label><!-- Description --></label>
+            <section>Description</section>
         </sections>
         <sections>
             <label>マトリックス：時間と費用</label>
-            <section>Metrics: Hours &amp; Expenses</section>
+            <section>Metrics</section>
+        </sections>
+        <sections>
+            <label>ブロック</label>
+            <section>Status</section>
         </sections>
     </layouts>
     <nameFieldLabel><!-- Project Task Name --></nameFieldLabel>

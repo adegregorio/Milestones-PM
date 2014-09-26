@@ -247,22 +247,53 @@
         <name>Total_Open_Tasks__c</name>
     </fields>
     <layouts>
-        <layout>Project Milestone Layout</layout>
+        <layout>Complete Project Milestone Layout</layout>
         <sections>
-            <label>予算</label>
+            <label><!-- Budget --></label>
             <section>Budget</section>
         </sections>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Expense Information (Calculated) --></label>
+            <section>Expense Information (Calculated)</section>
+        </sections>
+        <sections>
+            <label><!-- Hours Information (Calculated) --></label>
+            <section>Hours Information (Calculated)</section>
+        </sections>
+        <sections>
+            <label><!-- Project Tasks Gantt View --></label>
+            <section>Project Tasks Gantt View</section>
+        </sections>
+        <sections>
+            <label><!-- Status Summary --></label>
+            <section>Status Summary</section>
+        </sections>
+        <sections>
+            <label><!-- Summary Metrics (Calculated) --></label>
+            <section>Summary Metrics (Calculated)</section>
+        </sections>
+        <sections>
+            <label><!-- Task Information (Calculated) --></label>
+            <section>Task Information (Calculated)</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Simple Project Milestone Layout</layout>
         <sections>
             <label>カスタムリンク</label>
             <section>Custom Links</section>
         </sections>
         <sections>
-            <label>費用情報</label>
-            <section>Expense Information (Calculated)</section>
+            <label><!-- Description --></label>
+            <section>Description</section>
         </sections>
         <sections>
             <label>時間情報</label>
-            <section>Hours Information (Calculated)</section>
+            <section>Metrics</section>
         </sections>
         <sections>
             <label>プロジェクトタスクガントチャート</label>
@@ -271,14 +302,6 @@
         <sections>
             <label>状態のサマリー</label>
             <section>Status Summary</section>
-        </sections>
-        <sections>
-            <label>サマリーマトリックス</label>
-            <section>Summary Metrics (Calculated)</section>
-        </sections>
-        <sections>
-            <label>タスク情報</label>
-            <section>Task Information (Calculated)</section>
         </sections>
     </layouts>
     <nameFieldLabel><!-- Project Milestone Name --></nameFieldLabel>

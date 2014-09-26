@@ -178,12 +178,17 @@
     </types>
     <types>
         <members>Milestone1_Expense__c-Project Expense Layout</members>
-        <members>Milestone1_Log__c-Project Log Layout</members>
-        <members>Milestone1_Milestone__c-Project Milestone Layout</members>
+        <members>Milestone1_Log__c-Complete Project Log Layout</members>
+        <members>Milestone1_Log__c-Simple Project Log Layout</members>
+        <members>Milestone1_Milestone__c-Complete Project Milestone Layout</members>
+        <members>Milestone1_Milestone__c-Simple Project Milestone Layout</members>
         <members>Milestone1_Nag__c-Project Nag Layout</members>
-        <members>Milestone1_Project__c-Project Layout</members>
-        <members>Milestone1_Task__c-Project Task Layout</members>
-        <members>Milestone1_Time__c-Project Time Layout</members>
+        <members>Milestone1_Project__c-Complete Project Layout</members>
+        <members>Milestone1_Project__c-Simple Project Layout</members>
+        <members>Milestone1_Task__c-Complete Project Task Layout</members>
+        <members>Milestone1_Task__c-Simple Project Task Layout</members>
+        <members>Milestone1_Time__c-Complete Project Time Layout</members>
+        <members>Milestone1_Time__c-Simple Project Time Layout</members>
         <members>Project_Snapshot__c-Project Snapshot Layout</members>
         <name>Layout</name>
     </types>

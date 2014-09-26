@@ -66,7 +66,7 @@
         </picklistValues>
     </fields>
     <layouts>
-        <layout>Project Log Layout</layout>
+        <layout>Complete Project Log Layout</layout>
         <sections>
             <label><!-- Custom Links --></label>
             <section>Custom Links</section>
@@ -78,6 +78,17 @@
         <sections>
             <label><!-- Related Records --></label>
             <section>Related Records</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Simple Project Log Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Detail Information --></label>
+            <section>Detail Information</section>
         </sections>
     </layouts>
     <startsWith>Consonant</startsWith>

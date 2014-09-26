@@ -40,7 +40,14 @@
         <relationshipLabel><!-- Times --></relationshipLabel>
     </fields>
     <layouts>
-        <layout>Project Time Layout</layout>
+        <layout>Complete Project Time Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Simple Project Time Layout</layout>
         <sections>
             <label><!-- Custom Links --></label>
             <section>Custom Links</section>
