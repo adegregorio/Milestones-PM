@@ -61,6 +61,7 @@ public class Milestone1_Task_Trigger_Utility {
 
         List<sObject> subscriptionsAddList = new List<sObject>();
         List<sObject> subscriptionsDeleteList = new List<sObject>();
+        List<Milestone1_Log__c> taskBlockerLogs = new List<Milestone1_Log__c>();
 
         // Iterate over the list of Tasks and evaluate the Chatter rules to follow/unfollow based on
         // Custom Settings for Users/Profiles
@@ -71,6 +72,10 @@ public class Milestone1_Task_Trigger_Utility {
             // Retrieve the old record which matches current record
             if (oldRecs != null && oldRecs.size() > i) {
                 oldRec = oldRecs.get(i);
+            }
+
+            if (taskChangedToBlocked(rec, oldRec)) {
+                taskBlockerLogs.add(createTaskBlockerLog(rec));
             }
 
             // If the Task is Assigned to a User then we can proceed
@@ -135,14 +140,31 @@ public class Milestone1_Task_Trigger_Utility {
             i++;
         }
 
-        // Perform Inserts and Deletes of Subscriptions
         try {
+            insert taskBlockerLogs;
             insert subscriptionsAddList;
             delete subscriptionsDeleteList;
         } catch(Exception e) {
             //TODO Validate the type of exception
             recs[0].addError(e.getMessage());
         }
+    }
+
+    private static Boolean taskChangedToBlocked(
+            Milestone1_Task__c newRecord,
+            Milestone1_Task__c oldRecord
+    ) {
+        return newRecord.Blocked__c && !oldRecord.Blocked__c;
+    }
+
+    private static Milestone1_Log__c createTaskBlockerLog(Milestone1_Task__c newRecord) {
+        return new Milestone1_Log__c(
+            Project__c = newRecord.ProjectId__c,
+            Project_Task__c = newRecord.Id,
+            Type__c = 'Blocker',
+            Subject__c = 'Task Blocked',
+            Detail__c = 'Reason ' + newRecord.Blocked_Reason__c
+        );
     }
 
     /*

@@ -90,6 +90,10 @@
             <label><!-- Detail Information --></label>
             <section>Detail Information</section>
         </sections>
+        <sections>
+            <label><!-- Detail holder --></label>
+            <section>Detail holder</section>
+        </sections>
     </layouts>
     <startsWith>Consonant</startsWith>
 </CustomObjectTranslation>

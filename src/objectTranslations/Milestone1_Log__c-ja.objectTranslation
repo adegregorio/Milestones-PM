@@ -86,6 +86,10 @@
             <label>詳細情報</label>
             <section>Detail Information</section>
         </sections>
+        <sections>
+            <label><!-- Detail holder --></label>
+            <section>Detail holder</section>
+        </sections>
     </layouts>
     <nameFieldLabel><!-- Project Log Name --></nameFieldLabel>
 </CustomObjectTranslation>
