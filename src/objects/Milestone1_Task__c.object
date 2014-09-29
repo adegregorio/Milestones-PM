@@ -592,6 +592,27 @@
         <label>All</label>
         <language>en_US</language>
     </listViews>
+    <listViews>
+        <fullName>For_review</fullName>
+        <columns>NAME</columns>
+        <columns>Project__c</columns>
+        <columns>Priority__c</columns>
+        <columns>Class__c</columns>
+        <columns>Task_Stage__c</columns>
+        <columns>Due_Date__c</columns>
+        <columns>Complete__c</columns>
+        <columns>Blocked__c</columns>
+        <columns>Hours_Balance__c</columns>
+        <columns>Assigned_To__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Task_Stage__c</field>
+            <operation>equals</operation>
+            <value>For review</value>
+        </filters>
+        <label>For review</label>
+        <language>en_US</language>
+    </listViews>
     <nameField>
         <label>Project Task Name</label>
         <trackFeedHistory>false</trackFeedHistory>
