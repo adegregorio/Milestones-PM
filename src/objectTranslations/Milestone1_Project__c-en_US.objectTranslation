@@ -107,6 +107,10 @@
         </picklistValues>
     </fields>
     <fields>
+        <label><!-- Total Billable Hours --></label>
+        <name>Total_Billable_Hours__c</name>
+    </fields>
+    <fields>
         <help><!-- How many tasks associated with this project are blocked? (Calculated) --></help>
         <label><!-- Total Blocked Task Count --></label>
         <name>Total_Blocked_Task_Count__c</name>
@@ -160,6 +164,10 @@
         <help><!-- How many tasks associated with this project are late?  (Calculated) --></help>
         <label><!-- Total Late Task Count --></label>
         <name>Total_Late_Task_Count__c</name>
+    </fields>
+    <fields>
+        <label><!-- Total Non Billable Hours --></label>
+        <name>Total_Non_Billable_Hours__c</name>
     </fields>
     <fields>
         <help><!-- How many open tasks are there in this project? (Calculated. Includes Late and Blocked tasks.) --></help>

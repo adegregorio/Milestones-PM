@@ -103,6 +103,10 @@
         </picklistValues>
     </fields>
     <fields>
+        <label><!-- Total Billable Hours --></label>
+        <name>Total_Billable_Hours__c</name>
+    </fields>
+    <fields>
         <help>ブロックされているこのプロジェクトのタスク数</help>
         <label>総ブロックタスク数</label>
         <name>Total_Blocked_Task_Count__c</name>
@@ -156,6 +160,10 @@
         <help>遅延しているこのプロジェクトのタスク数</help>
         <label>総遅延タスク数</label>
         <name>Total_Late_Task_Count__c</name>
+    </fields>
+    <fields>
+        <label><!-- Total Non Billable Hours --></label>
+        <name>Total_Non_Billable_Hours__c</name>
     </fields>
     <fields>
         <help>このプロジェクトの進行中タスク数（遅延とブロックを含む）</help>

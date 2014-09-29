@@ -318,6 +318,18 @@ IMAGE( Status_TasksOpenComplete__c , &quot;Open vs. Complete Tasks&quot;) , &apo
         <type>Picklist</type>
     </fields>
     <fields>
+        <fullName>Total_Billable_Hours__c</fullName>
+        <externalId>false</externalId>
+        <label>Total Billable Hours</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
         <fullName>Total_Blocked_Task_Count__c</fullName>
         <externalId>false</externalId>
         <inlineHelpText>How many tasks associated with this project are blocked? (Calculated)</inlineHelpText>
@@ -448,6 +460,18 @@ IMAGE( Status_TasksOpenComplete__c , &quot;Open vs. Complete Tasks&quot;) , &apo
         <externalId>false</externalId>
         <inlineHelpText>How many tasks associated with this project are late?  (Calculated)</inlineHelpText>
         <label>Total Late Task Count</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Total_Non_Billable_Hours__c</fullName>
+        <externalId>false</externalId>
+        <label>Total Non Billable Hours</label>
         <precision>18</precision>
         <required>false</required>
         <scale>0</scale>
