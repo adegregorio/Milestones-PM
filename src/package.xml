@@ -294,82 +294,29 @@
         <name>CustomField</name>
     </types>
     <types>
-        <members>ALiasNotFound</members>
-        <members>AllItems</members>
-        <members>AllOpenTasks</members>
-        <members>AnErrorHasOcurred</members>
-        <members>Back</members>
         <members>BeSureToExploreTheSampleProject</members>
-        <members>BlockedTasks</members>
-        <members>Blocked_Tasks</members>
-        <members>Calendar</members>
-        <members>CalendarLegend</members>
-        <members>Cancel</members>
-        <members>CheckActive</members>
         <members>ClickHere</members>
         <members>ClickHereToInitializeThisApp</members>
-        <members>ClickNewEmailService</members>
-        <members>ClickSaveAndNewEmailAddress</members>
-        <members>ClickingTheButtonWill</members>
         <members>Community</members>
-        <members>ContentIsNotAllowedInProlog</members>
-        <members>CurrentExport</members>
-        <members>DidNotMatch</members>
-        <members>EnterAcommand</members>
-        <members>Expenses</members>
-        <members>Filter</members>
-        <members>FilterCalendarBy</members>
         <members>ForCommunityAssistance</members>
-        <members>Friday</members>
-        <members>FromUsersNotFound</members>
-        <members>FullMonth</members>
-        <members>FullView</members>
         <members>GettingHelp</members>
-        <members>GettingStarted</members>
-        <members>GiveEmailServiceName</members>
-        <members>GoToSetupDevelopEmailServices</members>
-        <members>IfYouHaveNotDoneThis</members>
-        <members>Import</members>
-        <members>ImportDefaultProject</members>
-        <members>ImportFailed</members>
-        <members>ImportLocalTemplateXML</members>
-        <members>ImportTemplate</members>
-        <members>ImportTemplateXML</members>
-        <members>Important</members>
         <members>ImportantUpper</members>
-        <members>IncompleteTasksByPriority</members>
-        <members>IncompleteTasksByProjects</members>
-        <members>InitialConfiguration</members>
         <members>InitializationComplete</members>
-        <members>InitializeCustomAppSettings</members>
         <members>InitializeYourConfiguration</members>
-        <members>InsufficientPrivileges</members>
-        <members>InsufficientPrivilegesToAccessParentMilestone</members>
-        <members>InvalidName</members>
-        <members>InvalidVersion</members>
-        <members>LateTasks</members>
         <members>LearnMore</members>
-        <members>Logs</members>
-        <members>MainMenu</members>
-        <members>MaximumPer</members>
         <members>Milestone1_ALiasNotFound</members>
         <members>Milestone1_AllItems</members>
         <members>Milestone1_AllOpenTasks</members>
         <members>Milestone1_AnErrorHasOcurred</members>
         <members>Milestone1_Back</members>
-        <members>Milestone1_BeSureToExploreTheSampleProject</members>
         <members>Milestone1_BlockedTasks</members>
         <members>Milestone1_Blocked_Tasks</members>
         <members>Milestone1_Calendar</members>
         <members>Milestone1_CalendarLegend</members>
         <members>Milestone1_Cancel</members>
         <members>Milestone1_CheckActive</members>
-        <members>Milestone1_ClickHere</members>
-        <members>Milestone1_ClickHereToInitializeThisApp</members>
         <members>Milestone1_ClickNewEmailService</members>
         <members>Milestone1_ClickSaveAndNewEmailAddress</members>
-        <members>Milestone1_ClickingTheButtonWill</members>
-        <members>Milestone1_Community</members>
         <members>Milestone1_ContentIsNotAllowedInProlog</members>
         <members>Milestone1_CurrentExport</members>
         <members>Milestone1_DidNotMatch</members>
@@ -379,38 +326,27 @@
         <members>Milestone1_Filter</members>
         <members>Milestone1_FilterCalendarBy</members>
         <members>Milestone1_FilterProjectBy</members>
-        <members>Milestone1_ForCommunityAssistance</members>
         <members>Milestone1_Friday</members>
         <members>Milestone1_FromUsersNotFound</members>
         <members>Milestone1_FullMonth</members>
         <members>Milestone1_FullView</members>
-        <members>Milestone1_GettingHelp</members>
         <members>Milestone1_GettingStarted</members>
         <members>Milestone1_GiveEmailServiceName</members>
         <members>Milestone1_Go</members>
         <members>Milestone1_GoToSetupDevelopEmailServices</members>
-        <members>Milestone1_IfYouHaveNotDoneThis</members>
         <members>Milestone1_Import</members>
-        <members>Milestone1_ImportDefaultProject</members>
         <members>Milestone1_ImportFailed</members>
         <members>Milestone1_ImportLocalTemplateXML</members>
         <members>Milestone1_ImportTemplate</members>
         <members>Milestone1_ImportTemplateXML</members>
-        <members>Milestone1_Important</members>
-        <members>Milestone1_ImportantUpper</members>
         <members>Milestone1_InactiveUsersError</members>
         <members>Milestone1_IncompleteTasksByPriority</members>
         <members>Milestone1_IncompleteTasksByProjects</members>
-        <members>Milestone1_InitialConfiguration</members>
-        <members>Milestone1_InitializationComplete</members>
-        <members>Milestone1_InitializeCustomAppSettings</members>
-        <members>Milestone1_InitializeYourConfiguration</members>
         <members>Milestone1_InsufficientPrivileges</members>
         <members>Milestone1_InsufficientPrivilegesToAccessParentMilestone</members>
         <members>Milestone1_InvalidName</members>
         <members>Milestone1_InvalidVersion</members>
         <members>Milestone1_LateTasks</members>
-        <members>Milestone1_LearnMore</members>
         <members>Milestone1_Loading</members>
         <members>Milestone1_Logs</members>
         <members>Milestone1_MainMenu</members>
@@ -423,8 +359,6 @@
         <members>Milestone1_Milestones</members>
         <members>Milestone1_MilestonesCalendar</members>
         <members>Milestone1_MilestonesOpenTasks</members>
-        <members>Milestone1_MilestonesPMISOpenSource</members>
-        <members>Milestone1_MilestonesPMIsUnsupported</members>
         <members>Milestone1_MilestonesShouldNotBeMoved</members>
         <members>Milestone1_Monday</members>
         <members>Milestone1_MoveMilestoneCancel</members>
@@ -451,7 +385,6 @@
         <members>Milestone1_NewFieldToReplaceInactiveUsers</members>
         <members>Milestone1_NewMilestoneName</members>
         <members>Milestone1_NewProjectName</members>
-        <members>Milestone1_NextSteps</members>
         <members>Milestone1_NoImportXMLFilesSelected</members>
         <members>Milestone1_NoProjects</members>
         <members>Milestone1_OrganizationsVersion</members>
@@ -463,8 +396,6 @@
         <members>Milestone1_ProjectIsTooLarge</members>
         <members>Milestone1_ProjectMilestoneNagEngine</members>
         <members>Milestone1_ProjectMilestoneNotification</members>
-        <members>Milestone1_ProjectSummary_FirstHalf</members>
-        <members>Milestone1_ProjectSummary_SecondHalf</members>
         <members>Milestone1_ProjectXML</members>
         <members>Milestone1_ProjectXMLImport</members>
         <members>Milestone1_Projects</members>
@@ -481,7 +412,6 @@
         <members>Milestone1_SetAllFailureResponseOptions</members>
         <members>Milestone1_SettingsAlreadyExistNoChanges</members>
         <members>Milestone1_SetupNewEmailAddress</members>
-        <members>Milestone1_StartCreatingYourFirstProject</members>
         <members>Milestone1_SubMilestonesCanOnlyGoOneLevelDeep</members>
         <members>Milestone1_SubjectMissing</members>
         <members>Milestone1_SubjectMissingAlias</members>
@@ -501,12 +431,9 @@
         <members>Milestone1_TheXMLFileForYourProjectHasBeenSuccessfully</members>
         <members>Milestone1_TheXMLFileIsTooLarge</members>
         <members>Milestone1_Thealias</members>
-        <members>Milestone1_ThisSampleProjectIncludes</members>
-        <members>Milestone1_ThisWeeksView</members>
         <members>Milestone1_Thursday</members>
         <members>Milestone1_Times</members>
         <members>Milestone1_ToConfigureTheEmail</members>
-        <members>Milestone1_ToSubmitIdeasOrIssues</members>
         <members>Milestone1_ToUsersNotFound</members>
         <members>Milestone1_ToViewXML_FirstHalf</members>
         <members>Milestone1_ToViewXML_SecondHalf</members>
@@ -516,118 +443,26 @@
         <members>Milestone1_TopLevelMilestoneHasSuccessors</members>
         <members>Milestone1_Tuesday</members>
         <members>Milestone1_UsersNotFound</members>
-        <members>Milestone1_ViewTheGettingStartedProject</members>
-        <members>Milestone1_WeWelcomeYourIssueReports</members>
         <members>Milestone1_Wednesday</members>
-        <members>Milestone1_WelcomeToMilestonesPM</members>
-        <members>Milestone1_YouCanNowGoTo</members>
-        <members>Milestone1_YouMustDeploy</members>
-        <members>Milestone1_YourNextFewSteps</members>
         <members>Milestone1_YourProjectCouldNotSuccessfully</members>
-        <members>MilestoneApplicationPostInstallation</members>
-        <members>MilestoneClone</members>
-        <members>MilestoneIsComplete</members>
-        <members>MilestoneRecordsToMove</members>
-        <members>MilestoneYouAreAttempting</members>
-        <members>Milestones</members>
-        <members>MilestonesCalendar</members>
-        <members>MilestonesOpenTasks</members>
         <members>MilestonesPMISOpenSource</members>
         <members>MilestonesPMIsUnsupported</members>
-        <members>MilestonesShouldNotBeMoved</members>
-        <members>Monday</members>
-        <members>MoveMilestoneCancel</members>
-        <members>MoveMilestoneRecordsToMove</members>
-        <members>MoveMilestoneS</members>
-        <members>MoveMilestoneSave</members>
-        <members>MoveMilestone_Cancel</members>
-        <members>MoveMilestone_Save</members>
-        <members>MoveMilestone_s</members>
-        <members>MoveTaskCancel</members>
-        <members>MoveTaskDetailAttachmentsRecords</members>
-        <members>MoveTaskDetailCancel</members>
-        <members>MoveTaskDetailS</members>
-        <members>MoveTaskDetailSave</members>
-        <members>MoveTaskDetailTaskRecordsToMove</members>
-        <members>MoveTaskRecordsToMove</members>
-        <members>MoveTaskS</members>
-        <members>MoveTaskSave</members>
-        <members>MyIncompleteTasks</members>
-        <members>MyMilestonesOnly</members>
-        <members>MyProjectsAndSubProjectItems</members>
-        <members>MyTasks</members>
-        <members>MyTasksOnly</members>
-        <members>NewFieldToReplaceInactiveUsers</members>
-        <members>NewMilestoneName</members>
-        <members>NewProjectName</members>
         <members>NextSteps</members>
-        <members>NoImportXMLFilesSelected</members>
-        <members>NoProjects</members>
-        <members>OrganizationsVersion</members>
-        <members>OverdueTasks</members>
-        <members>PleaseUseFormat</members>
-        <members>ProjectCannotBeNull</members>
-        <members>ProjectClone</members>
-        <members>ProjectDetail</members>
-        <members>ProjectIsTooLarge</members>
         <members>ProjectSummary_FirstHalf</members>
         <members>ProjectSummary_SecondHalf</members>
-        <members>ProjectXML</members>
-        <members>ProjectXMLImport</members>
-        <members>Projects</members>
-        <members>ProjectsCalendar</members>
-        <members>ProjectsMustBeExported</members>
-        <members>QuickSearch</members>
-        <members>RegexFwdRe</members>
-        <members>SalesforceDMLError</members>
-        <members>Saturday</members>
-        <members>Save</members>
-        <members>SelectTheApexClass</members>
-        <members>SetAcceptAttachmentsToAll</members>
-        <members>SetAcceptEmailFromToAllEmail</members>
-        <members>SetAllFailureResponseOptions</members>
-        <members>SettingsAlreadyExistNoChanges</members>
-        <members>SetupNewEmailAddress</members>
         <members>StartCreatingYourFirstProject</members>
-        <members>SubMilestonesCanOnlyGoOneLevelDeep</members>
-        <members>SubjectMissing</members>
-        <members>SubjectMissingAlias</members>
-        <members>SubjectMissingTask</members>
-        <members>Submit</members>
-        <members>Summary</members>
-        <members>SummarySearch</members>
-        <members>Sunday</members>
-        <members>TaskNotFound</members>
-        <members>TaskYouAreAttempting</members>
-        <members>Tasks</members>
-        <members>TasksCalendar</members>
-        <members>TheProjectCannotBeNull</members>
-        <members>TheXMLFileForYourProjectHasBeenSuccessfully</members>
-        <members>TheXMLFileIsTooLarge</members>
-        <members>Thealias</members>
         <members>ThisSampleProjectIncludes</members>
-        <members>Thursday</members>
-        <members>Times</members>
-        <members>ToConfigureTheEmail</members>
         <members>ToSubmitIdeasOrIssues</members>
-        <members>ToUsersNotFound</members>
-        <members>ToViewXML_FirstHalf</members>
-        <members>ToViewXML_SecondHalf</members>
-        <members>ToYourProject_FirstHalf</members>
-        <members>ToYourProject_SecondHalf</members>
-        <members>TopLevelMilestoneHasPredecessor</members>
-        <members>TopLevelMilestoneHasSuccessors</members>
-        <members>Tuesday</members>
-        <members>UsersNotFound</members>
         <members>ViewTheGettingStartedProject</members>
         <members>WeWelcomeYourIssueReports</members>
-        <members>Wednesday</members>
         <members>WelcomeToMilestonesPM</members>
         <members>YouCanNowGoTo</members>
-        <members>YouMustDeploy</members>
         <members>YourNextFewSteps</members>
-        <members>YourProjectCouldNotSuccessfully</members>
         <name>CustomLabel</name>
+    </types>
+    <types>
+        <members>CustomLabels</members>
+        <name>CustomLabels</name>
     </types>
     <types>
         <members>Milestone1_Expense__c</members>
@@ -640,27 +475,6 @@
         <members>Milestone1_Time__c</members>
         <members>Project_Snapshot__c</members>
         <name>CustomObject</name>
-    </types>
-    <types>
-        <members>Milestone1_Expense__c-en_US</members>
-        <members>Milestone1_Expense__c-ja</members>
-        <members>Milestone1_Log__c-en_US</members>
-        <members>Milestone1_Log__c-ja</members>
-        <members>Milestone1_Milestone__c-en_US</members>
-        <members>Milestone1_Milestone__c-ja</members>
-        <members>Milestone1_Nag__c-en_US</members>
-        <members>Milestone1_Nag__c-ja</members>
-        <members>Milestone1_Project__c-en_US</members>
-        <members>Milestone1_Project__c-ja</members>
-        <members>Milestone1_Settings__c-en_US</members>
-        <members>Milestone1_Settings__c-ja</members>
-        <members>Milestone1_Task__c-en_US</members>
-        <members>Milestone1_Task__c-ja</members>
-        <members>Milestone1_Time__c-en_US</members>
-        <members>Milestone1_Time__c-ja</members>
-        <members>Project_Snapshot__c-en_US</members>
-        <members>Project_Snapshot__c-ja</members>
-        <name>CustomObjectTranslation</name>
     </types>
     <types>
         <members>Milestone1_Getting_Started</members>
@@ -768,10 +582,6 @@
         <members>Milestone1_Resource_Bundle</members>
         <members>Milestone1_Timeline</members>
         <name>StaticResource</name>
-    </types>
-    <types>
-        <members>ja</members>
-        <name>Translations</name>
     </types>
     <types>
         <members>Milestone1_Milestone__c.Alias_must_not_contain_spaces</members>
