@@ -4,9 +4,4 @@
     <availableInTouch>false</availableInTouch>
     <confirmationTokenRequired>false</confirmationTokenRequired>
     <label>Milestone1_Clone_Milestone</label>
-    <packageVersions>
-        <majorNumber>1</majorNumber>
-        <minorNumber>6</minorNumber>
-        <namespace>sf_com_apps</namespace>
-    </packageVersions>
 </ApexPage>
