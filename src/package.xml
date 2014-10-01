@@ -537,6 +537,10 @@
         <name>ListView</name>
     </types>
     <types>
+        <members>MilestonesPM User</members>
+        <name>Profile</name>
+    </types>
+    <types>
         <members>Milestone_Project_Management</members>
         <members>Milestone_Project_Management/Active_Projects_Open_Milestones</members>
         <members>Milestone_Project_Management/Blocked_Task_Report</members>
