@@ -154,7 +154,7 @@ public class Milestone1_Task_Trigger_Utility {
             Milestone1_Task__c newRecord,
             Milestone1_Task__c oldRecord
     ) {
-        return newRecord.Blocked__c && !oldRecord.Blocked__c;
+        return newRecord.Blocked__c && (oldRecord == null || !oldRecord.Blocked__c);
     }
 
     private static Milestone1_Log__c createTaskBlockerLog(Milestone1_Task__c newRecord) {
