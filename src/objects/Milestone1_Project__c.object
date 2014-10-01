@@ -528,7 +528,7 @@ IMAGE( Status_TasksOpenComplete__c , &quot;Open vs. Complete Tasks&quot;) , &apo
     <sharingModel>ReadWrite</sharingModel>
     <validationRules>
         <fullName>Kickoff_before_deadline</fullName>
-        <active>false</active>
+        <active>true</active>
         <description>Kickoff must be less or equal than the deadline</description>
         <errorConditionFormula>NOT(ISNULL(Kickoff__c)) &amp;&amp; NOT(ISNULL(Deadline__c)) &amp;&amp; Deadline__c &lt; Kickoff__c</errorConditionFormula>
         <errorDisplayField>Kickoff__c</errorDisplayField>

@@ -671,7 +671,7 @@
     </validationRules>
     <validationRules>
         <fullName>Due_Date_Smaller_Than_Milestone_Kickoff</fullName>
-        <active>false</active>
+        <active>true</active>
         <errorConditionFormula>Due_Date__c &lt;  Project_Milestone__r.Kickoff__c</errorConditionFormula>
         <errorDisplayField>Due_Date__c</errorDisplayField>
         <errorMessage>Due Date should be greater than Milestone Kickoff Date</errorMessage>
@@ -692,9 +692,11 @@
     </validationRules>
     <validationRules>
         <fullName>Start_Date_More_Than_Due_Date</fullName>
-        <active>false</active>
-        <errorConditionFormula>if (and(!isblank(Start_Date__c), !isblank(Due_Date__c)), true, false)</errorConditionFormula>
-        <errorDisplayField>Due_Date__c</errorDisplayField>
+        <active>true</active>
+        <errorConditionFormula>if(and(!isblank(Start_Date__c), !isblank(Due_Date__c)), 
+    Start_Date__c &gt; Due_Date__c,
+    false
+)</errorConditionFormula>
         <errorMessage>Due Date should be greater than Start Date</errorMessage>
     </validationRules>
     <webLinks>

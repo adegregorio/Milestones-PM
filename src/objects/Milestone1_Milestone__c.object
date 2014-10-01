@@ -827,7 +827,7 @@ IMAGE(&quot;http://chart.apis.google.com/chart?chxt=y&amp;chbh=a&amp;chs=300x225
     </validationRules>
     <validationRules>
         <fullName>Deadline_within_project_boundaries</fullName>
-        <active>false</active>
+        <active>true</active>
         <errorConditionFormula>if ( and (Deadline__c &lt;&gt; null, Project__r.Deadline__c &lt;&gt;  null, Deadline__c &gt; Project__r.Deadline__c) , true, false)</errorConditionFormula>
         <errorDisplayField>Deadline__c</errorDisplayField>
         <errorMessage>Deadline must be less than or equal to the project deadline.</errorMessage>
@@ -848,7 +848,7 @@ IMAGE(&quot;http://chart.apis.google.com/chart?chxt=y&amp;chbh=a&amp;chs=300x225
     </validationRules>
     <validationRules>
         <fullName>Kickoff_before_deadline</fullName>
-        <active>false</active>
+        <active>true</active>
         <description>Kickoff must be less or equal than the deadline</description>
         <errorConditionFormula>NOT(ISNULL(Kickoff__c)) &amp;&amp; NOT(ISNULL(Deadline__c)) &amp;&amp;  Deadline__c &lt; Kickoff__c</errorConditionFormula>
         <errorDisplayField>Kickoff__c</errorDisplayField>
