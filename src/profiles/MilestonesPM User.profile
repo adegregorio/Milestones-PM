@@ -745,7 +745,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Milestone1_Project__c.Total_Hours_Budget__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1375,6 +1375,10 @@
     <userPermissions>
         <enabled>false</enabled>
         <name>CreateWorkspaces</name>
+    </userPermissions>
+    <userPermissions>
+        <enabled>false</enabled>
+        <name>CustomSidebarOnAllPages</name>
     </userPermissions>
     <userPermissions>
         <enabled>false</enabled>

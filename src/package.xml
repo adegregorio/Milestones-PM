@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>MilestonesPM</fullName>
+    <apiAccessLevel>Unrestricted</apiAccessLevel>
+    <namespacePrefix>kovida</namespacePrefix>
     <types>
         <members>Project_Status_Analytic_Snapshot</members>
         <name>AnalyticSnapshot</name>

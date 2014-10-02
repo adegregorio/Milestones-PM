@@ -407,7 +407,7 @@ IMAGE( Status_TasksOpenComplete__c , &quot;Open vs. Complete Tasks&quot;) , &apo
         <fullName>Total_Hours_Budget__c</fullName>
         <externalId>false</externalId>
         <inlineHelpText>The total hours budget for this project.</inlineHelpText>
-        <label>Total Hours Budget</label>
+        <label>Hours Budget</label>
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
