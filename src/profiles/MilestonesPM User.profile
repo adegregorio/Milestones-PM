@@ -621,6 +621,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Milestone1_Project__c.Account__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Milestone1_Project__c.Deadline__c</field>
         <readable>true</readable>
     </fieldPermissions>
