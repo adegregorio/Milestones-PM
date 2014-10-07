@@ -89,7 +89,7 @@
         <label>Budgets</label>
         <layoutColumns>
             <layoutItems>
-                <behavior>Edit</behavior>
+                <behavior>Required</behavior>
                 <field>Total_Hours_Budget__c</field>
             </layoutItems>
         </layoutColumns>
