@@ -52,7 +52,7 @@
     <enableActivities>false</enableActivities>
     <enableBulkApi>true</enableBulkApi>
     <enableEnhancedLookup>false</enableEnhancedLookup>
-    <enableFeeds>true</enableFeeds>
+    <enableFeeds>false</enableFeeds>
     <enableHistory>false</enableHistory>
     <enableReports>true</enableReports>
     <enableSharing>true</enableSharing>
@@ -66,7 +66,6 @@
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackTrending>false</trackTrending>
         <type>Currency</type>
     </fields>
@@ -90,7 +89,6 @@
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackTrending>false</trackTrending>
         <type>Number</type>
         <unique>false</unique>
@@ -115,7 +113,6 @@
         <label>Milestone Alias</label>
         <length>10</length>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackTrending>false</trackTrending>
         <type>Text</type>
         <unique>true</unique>
@@ -139,7 +136,6 @@
         <precision>18</precision>
         <required>false</required>
         <scale>0</scale>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackTrending>false</trackTrending>
         <type>Number</type>
         <unique>false</unique>
@@ -168,7 +164,6 @@
         <precision>18</precision>
         <required>false</required>
         <scale>0</scale>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackTrending>false</trackTrending>
         <type>Number</type>
         <unique>false</unique>
@@ -194,7 +189,6 @@
         <externalId>false</externalId>
         <inlineHelpText>This signifies that this milestone has been completed.</inlineHelpText>
         <label>Complete</label>
-        <trackFeedHistory>true</trackFeedHistory>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
     </fields>
@@ -204,7 +198,6 @@
         <inlineHelpText>The date that this deadline needs to be finished by.</inlineHelpText>
         <label>Deadline</label>
         <required>false</required>
-        <trackFeedHistory>true</trackFeedHistory>
         <trackTrending>false</trackTrending>
         <type>Date</type>
     </fields>
@@ -214,7 +207,6 @@
         <inlineHelpText>A general description of the milestone.</inlineHelpText>
         <label>Description</label>
         <length>5000</length>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackTrending>false</trackTrending>
         <type>LongTextArea</type>
         <visibleLines>5</visibleLines>
@@ -242,7 +234,6 @@
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackTrending>false</trackTrending>
         <type>Currency</type>
     </fields>
@@ -266,7 +257,6 @@
         <precision>16</precision>
         <required>false</required>
         <scale>0</scale>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackTrending>false</trackTrending>
         <type>Number</type>
         <unique>false</unique>
@@ -291,7 +281,6 @@
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackTrending>false</trackTrending>
         <type>Currency</type>
     </fields>
@@ -304,7 +293,6 @@
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackTrending>false</trackTrending>
         <type>Currency</type>
     </fields>
@@ -317,7 +305,6 @@
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackTrending>false</trackTrending>
         <type>Number</type>
         <unique>false</unique>
@@ -331,7 +318,6 @@
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackTrending>false</trackTrending>
         <type>Number</type>
         <unique>false</unique>
@@ -343,7 +329,6 @@
         <label>Import ID</label>
         <length>18</length>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackTrending>false</trackTrending>
         <type>Text</type>
         <unique>false</unique>
@@ -354,7 +339,6 @@
         <inlineHelpText>When should this milestone kickoff?</inlineHelpText>
         <label>Kickoff</label>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackTrending>false</trackTrending>
         <type>Date</type>
     </fields>
@@ -367,7 +351,6 @@
         <precision>18</precision>
         <required>false</required>
         <scale>0</scale>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackTrending>false</trackTrending>
         <type>Number</type>
         <unique>false</unique>
@@ -400,7 +383,6 @@
         <precision>18</precision>
         <required>false</required>
         <scale>0</scale>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackTrending>false</trackTrending>
         <type>Number</type>
         <unique>false</unique>
@@ -433,7 +415,6 @@
         <description>A hidden field used to prevent users from manually moving Milestones to different Projects</description>
         <externalId>false</externalId>
         <label>Okay to Reparent</label>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
     </fields>
@@ -464,7 +445,6 @@ IMAGE(&quot;http://chart.apis.google.com/chart?chxt=y&amp;chbh=a&amp;chs=300x225
         <precision>18</precision>
         <required>false</required>
         <scale>0</scale>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackTrending>false</trackTrending>
         <type>Number</type>
         <unique>false</unique>
@@ -518,7 +498,6 @@ IMAGE(&quot;http://chart.apis.google.com/chart?chxt=y&amp;chbh=a&amp;chs=300x225
         <relationshipLabel>Child Milestones</relationshipLabel>
         <relationshipName>Child_Milestones</relationshipName>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
     </fields>
@@ -528,7 +507,6 @@ IMAGE(&quot;http://chart.apis.google.com/chart?chxt=y&amp;chbh=a&amp;chs=300x225
         <label>Predecessor_Milestone_Import_Id__c</label>
         <length>18</length>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackTrending>false</trackTrending>
         <type>Text</type>
         <unique>false</unique>
@@ -552,7 +530,6 @@ IMAGE(&quot;http://chart.apis.google.com/chart?chxt=y&amp;chbh=a&amp;chs=300x225
         <relationshipLabel>Successor Milestones</relationshipLabel>
         <relationshipName>Successor_Milestones</relationshipName>
         <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
     </fields>
@@ -580,7 +557,6 @@ IMAGE(&quot;http://chart.apis.google.com/chart?chxt=y&amp;chbh=a&amp;chs=300x225
         <relationshipLabel>Milestones</relationshipLabel>
         <relationshipName>Project_Milestones</relationshipName>
         <required>false</required>
-        <trackFeedHistory>true</trackFeedHistory>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
     </fields>
@@ -775,7 +751,6 @@ IMAGE(&quot;http://chart.apis.google.com/chart?chxt=y&amp;chbh=a&amp;chs=300x225
     </listViews>
     <nameField>
         <label>Project Milestone Name</label>
-        <trackFeedHistory>false</trackFeedHistory>
         <type>Text</type>
     </nameField>
     <pluralLabel>Milestones</pluralLabel>
