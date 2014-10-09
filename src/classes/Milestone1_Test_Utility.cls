@@ -1,34 +1,34 @@
-/* 
+/*
 Copyright (c) 2011, salesforce.com, Inc.
 All rights reserved.
- 
-Redistribution and use in source and binary forms, with or without modification, 
+
+Redistribution and use in source and binary forms, with or without modification,
 are permitted provided that the following conditions are met:
 
-    * Redistributions of source code must retain the above copyright notice, 
+    * Redistributions of source code must retain the above copyright notice,
     this list of conditions and the following disclaimer.
-    * Redistributions in binary form must reproduce the above copyright notice, 
-    this list of conditions and the following disclaimer in the documentation 
+    * Redistributions in binary form must reproduce the above copyright notice,
+    this list of conditions and the following disclaimer in the documentation
     and/or other materials provided with the distribution.
-    * Neither the name of the salesforce.com, Inc. nor the names of its contributors 
-    may be used to endorse or promote products derived from this software 
+    * Neither the name of the salesforce.com, Inc. nor the names of its contributors
+    may be used to endorse or promote products derived from this software
     without specific prior written permission.
 
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
-ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
-IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, 
-INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, 
-DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF 
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE 
-OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED 
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
 OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
 public with sharing class Milestone1_Test_Utility {
-    
-   
+
+
     public static Milestone1_Project__c sampleProject(String name) {
         Milestone1_Project__c rec = new Milestone1_Project__c();
         rec.Name = name + ''+ Datetime.now().getTime();
@@ -74,8 +74,8 @@ public with sharing class Milestone1_Test_Utility {
          *Owner:Persistent.
          *Comment: Importing the project with all the relationships intact.
          *Bug #: 66.
-    */ 
-        
+    */
+
     public static Milestone1_Milestone__c testSampleMilestone(Id projectId, Id predecessorMSId, String name){
         Milestone1_Milestone__c rec = new Milestone1_Milestone__c();
         rec.Name = name;
@@ -117,9 +117,9 @@ public with sharing class Milestone1_Test_Utility {
             rec.Blocked_Reason__c = 'Blocked Task Test';
         }
         rec.Last_Email_Received__c = Datetime.now();
-        return rec;     
+        return rec;
     }
-    
+
     public static Milestone1_Task__c sampleTask(Id milestoneId,Id PredecessorTaskId,Date kickoff, Date deadline){
         Milestone1_Task__c rec = new Milestone1_Task__c();
         rec.Project_Milestone__c = milestoneId;
@@ -131,12 +131,12 @@ public with sharing class Milestone1_Test_Utility {
         rec.Due_Date__c   = deadline;
         return rec;
     }
-    
+
 
     public static Milestone1_Task__c sampleTask(Milestone1_Milestone__c milestone) {
         return Milestone1_Test_Utility.sampleTask(milestone.Id, milestone.Kickoff__c.addDays(-1), milestone.Deadline__c.addDays(-1), false, false);
     }
-    
+
     public static Milestone1_Task__c sampleTask(Id milestoneId) {
         return Milestone1_Test_Utility.sampleTask(milestoneId, Date.today().addDays(1), Date.today().addDays(1), false, false);
     }
@@ -148,68 +148,68 @@ public with sharing class Milestone1_Test_Utility {
     public static Milestone1_Task__c sampleTaskBlocked(Id milestoneId) {
         return Milestone1_Test_Utility.sampleTask(milestoneId, Date.today().addDays(1), Date.today().addDays(1), false, true);
     }
-    
+
     public static Milestone1_Time__c sampleTime(Id taskId) {
         Milestone1_Time__c rec = new Milestone1_Time__c();
         rec.Project_Task__c = taskId;
         rec.Hours__c = Math.floor(Math.random() * 10 * 100) / 100;
         return rec;
     }
-    
+
     public static Milestone1_Expense__c sampleExpense(Id taskId) {
         Milestone1_Expense__c rec = new Milestone1_Expense__c();
         rec.Project_Task__c = taskId;
         rec.Amount__c = Math.floor(Math.random() * 1000 * 100) / 100;
         return rec;
     }
-    
+
     public static Boolean getRandomBool(Decimal oddsOfTrue){
         if(Math.random() <= oddsOfTrue){
             return true;
         }
         return false;
     }
-    
+
     public static Date getRandomDate(Integer rangeFromToday){
         return Date.today().addDays((Math.random() * rangeFromToday * 2 - rangeFromToday).intValue());
     }
-    
+
     public static Milestone1_Settings__c createDefaultCustomChatterSettings(Boolean autoFollowTasks)
     {
-        
+
         Milestone1_Settings__c testRule = Milestone1_Settings__c.getOrgDefaults();
         if(testRule == null)
         {
             testRule = new Milestone1_Settings__c();
             testRule.SetupOwnerId = UserInfo.getUserId();
             insert testRule;
-        } 
+        }
             testRule.Auto_Follow_Task__c = autoFollowTasks;
             testRule.Auto_Follow_Complete_Task__c = autoFollowTasks;
             testRule.Auto_Unfollow_Reassignment__c = autoFollowTasks;
             update testRule;
             System.debug(testRule);
-        
-        
+
+
         return testRule;
     }
-    
+
     /**
     * Extract the ids from a milestone list
     *
     * @param src Milestone list
     * @return Set of milestone ids
-    */    
+    */
     public static Set<Id> extractMilestoneIds(List<Milestone1_Milestone__c> src){
         Set<Id> res = new Set<Id>();
-        
-        for(Milestone1_Milestone__c m : src){ 
-            res.add( m.Id ); 
+
+        for(Milestone1_Milestone__c m : src){
+            res.add( m.Id );
         }
-        
+
         return res;
     }
-    
+
     /**
     *   Create a batch of milestones
     */
@@ -221,7 +221,7 @@ public with sharing class Milestone1_Test_Utility {
         List<Milestone1_Milestone__c> milestones = new List<Milestone1_Milestone__c>();
         Id projectId;
         if(project != null){
-            projectId = project.Id; 
+            projectId = project.Id;
         }
 
         for(Integer i = 0; i < size; i++){
@@ -233,9 +233,9 @@ public with sharing class Milestone1_Test_Utility {
 
         insert milestonesMap.values();
 
-        return milestonesMap;   
-    }    
-    
+        return milestonesMap;
+    }
+
     /**
     *   Create a batch of milestones with Parent
     */
@@ -245,7 +245,7 @@ public with sharing class Milestone1_Test_Utility {
         List<Milestone1_Milestone__c> milestones = new List<Milestone1_Milestone__c>();
         Id projectId;
         if(project != null){
-            projectId = project.Id; 
+            projectId = project.Id;
         }
         for(Integer i = 0; i < size; i++){
             milestone = Milestone1_Test_Utility.sampleMilestone(projectId, parentMilestone.Id, 'ms'+i);
@@ -254,9 +254,9 @@ public with sharing class Milestone1_Test_Utility {
             milestonesMap.put(milestone.Name,milestone);
         }
         insert milestonesMap.values();
-        return milestonesMap;   
-    }    
-    
+        return milestonesMap;
+    }
+
     /**
     *   Create a batch of milestones with Predecessor
     */
@@ -266,7 +266,7 @@ public with sharing class Milestone1_Test_Utility {
         List<Milestone1_Milestone__c> milestones = new List<Milestone1_Milestone__c>();
         Id projectId;
         if(project != null){
-            projectId = project.Id; 
+            projectId = project.Id;
         }
         for(Integer i = 0; i < size; i++){
             milestone = Milestone1_Test_Utility.sampleMilestone(projectId, null, 'ms'+i);
@@ -276,15 +276,15 @@ public with sharing class Milestone1_Test_Utility {
             milestonesMap.put(milestone.Name,milestone);
         }
         insert milestonesMap.values();
-        return milestonesMap;   
-    }   
-    
+        return milestonesMap;
+    }
+
 
     /**
     *   Create a batch of tasks
     */
     public static Map<String,Milestone1_Task__c> manyTasks(Milestone1_Milestone__c parentMilestone, Integer size){
-        
+
         Map<String,Milestone1_Task__c> tasksMap = new Map<String,Milestone1_Task__c>();
         Milestone1_Task__c task;
         List<Milestone1_Task__c> tasks = new List<Milestone1_Task__c>();
@@ -294,49 +294,54 @@ public with sharing class Milestone1_Test_Utility {
             tasksMap.put(task.Name,task);
         }
         insert tasksMap.values();
-        return tasksMap;        
-    }    
-    
+        return tasksMap;
+    }
+
     public static Map<String,Milestone1_Task__c> manyPredecessorTasks(Id mileID,Milestone1_Task__c predecessorTask,Integer size){
         Map<String,Milestone1_Task__c> tasksMap = new Map<String,Milestone1_Task__c>();
         Milestone1_Task__c task;
         List<Milestone1_Task__c> tasks = new List<Milestone1_Task__c>();
         Id milestoneId;
-        milestoneId = mileId; 
+        milestoneId = mileId;
         for(Integer i = 0; i < size; i++){
             task = Milestone1_Test_Utility.sampleTask(milestoneId,predecessorTask.id,predecessorTask.Due_Date__c.addDays(1),predecessorTask.Due_Date__c.addDays(1));
             task.Name =  'ts'+i;
             tasksMap.put(task.Name ,task);
         }
         insert tasksMap.values();
-        return tasksMap;  
+        return tasksMap;
     }
-     
- public static User createSFUser(){
-    
-    Profile profileUsed;
-        
-        String ret = 'word' + math.rint(math.random() * 100000);
-        for( Profile p : [ Select Id, PermissionsModifyAllData, Name from Profile limit 100 ] ){
-             if( p.PermissionsModifyAllData ){
-                 profileUsed = p;
-             }
-        }
-        String namePrefix = ret;
-    
-         User testUser = new User();
-         testUser.Email = 'test@test.com';
-         testUser.Username = ret + '@testuser.com';
-         testUser.LastName = 'test';
-         testUser.Alias = 'test';
-         testUser.ProfileId = profileUsed.Id;
-         testUser.LanguageLocaleKey = 'en_US';
-         testUser.LocaleSidKey = 'en_US';
-         testUser.TimeZoneSidKey = 'America/Chicago';
-         testUser.EmailEncodingKey = 'UTF-8';
-        
-         insert testUser;  
-         
-         return testUser;
-  } 
+
+    public static User createSFUser(){
+
+        List<Profile> profiles = [
+            SELECT
+                Id,
+                PermissionsModifyAllData,
+                Name
+            FROM
+                Profile
+            WHERE
+                Name = 'System Administrator'
+        ];
+
+        User testUser = new User();
+        testUser.Email = 'test@test.com';
+        testUser.Username = getRandomWord() + '@testuser.com';
+        testUser.LastName = 'test';
+        testUser.Alias = 'test';
+        testUser.ProfileId = profiles[0].Id;
+        testUser.LanguageLocaleKey = 'en_US';
+        testUser.LocaleSidKey = 'en_US';
+        testUser.TimeZoneSidKey = 'America/Chicago';
+        testUser.EmailEncodingKey = 'UTF-8';
+
+        insert testUser;
+
+        return testUser;
+    }
+
+    private static String getRandomWord() {
+        return 'word' + math.rint(math.random() * 100000);
+    }
 }
