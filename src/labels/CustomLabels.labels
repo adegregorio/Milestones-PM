@@ -701,20 +701,6 @@
         <value>Project is too large to export. Total characters must be less than</value>
     </labels>
     <labels>
-        <fullName>Milestone1_ProjectMilestoneNagEngine</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Project Milestone Nag Engine</shortDescription>
-        <value>Project Milestone Nag Engine</value>
-    </labels>
-    <labels>
-        <fullName>Milestone1_ProjectMilestoneNotification</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Project Milestone Notification - Items require attention.</shortDescription>
-        <value>Project Milestone Notification - Items require attention.</value>
-    </labels>
-    <labels>
         <fullName>Milestone1_ProjectXML</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -923,13 +909,6 @@
         <protected>true</protected>
         <shortDescription>TestProjectMilestones</shortDescription>
         <value>Milestones</value>
-    </labels>
-    <labels>
-        <fullName>Milestone1_TheFollowingSalesforceProjectMilestoneItems</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>The following Salesforce Project Milestone items are nagging you for attention</shortDescription>
-        <value>The following Salesforce Project Milestone items are nagging you for attention</value>
     </labels>
     <labels>
         <fullName>Milestone1_TheProjectCannotBeNull</fullName>

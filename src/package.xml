@@ -16,8 +16,6 @@
         <members>Milestone1_Constants</members>
         <members>Milestone1_Email_Handler</members>
         <members>Milestone1_Email_Handler_Tst</members>
-        <members>Milestone1_Email_Utility</members>
-        <members>Milestone1_Email_Utility_Tst</members>
         <members>Milestone1_Exception</members>
         <members>Milestone1_Expense_Trigger_Tst</members>
         <members>Milestone1_Expense_Trigger_Utility</members>
@@ -172,21 +170,6 @@
         <members>Milestone1_Milestone__c.Total_Hours_Budget__c</members>
         <members>Milestone1_Milestone__c.Total_Late_Tasks__c</members>
         <members>Milestone1_Milestone__c.Total_Open_Tasks__c</members>
-        <members>Milestone1_Nag__c.Assigned_To_Running_User__c</members>
-        <members>Milestone1_Nag__c.Assigned_To__c</members>
-        <members>Milestone1_Nag__c.Deadline__c</members>
-        <members>Milestone1_Nag__c.Description__c</members>
-        <members>Milestone1_Nag__c.Link__c</members>
-        <members>Milestone1_Nag__c.Nag_Reason__c</members>
-        <members>Milestone1_Nag__c.Nag_Status__c</members>
-        <members>Milestone1_Nag__c.Parent_ID__c</members>
-        <members>Milestone1_Nag__c.Parent_Name__c</members>
-        <members>Milestone1_Nag__c.Parent_Owner_Id__c</members>
-        <members>Milestone1_Nag__c.Parent_Status__c</members>
-        <members>Milestone1_Nag__c.Parent_Type__c</members>
-        <members>Milestone1_Nag__c.Project_Milestone__c</members>
-        <members>Milestone1_Nag__c.Project_Task__c</members>
-        <members>Milestone1_Nag__c.Project__c</members>
         <members>Milestone1_Project__c.Account__c</members>
         <members>Milestone1_Project__c.Deadline__c</members>
         <members>Milestone1_Project__c.Description__c</members>
@@ -395,8 +378,6 @@
         <members>Milestone1_ProjectClone</members>
         <members>Milestone1_ProjectDetail</members>
         <members>Milestone1_ProjectIsTooLarge</members>
-        <members>Milestone1_ProjectMilestoneNagEngine</members>
-        <members>Milestone1_ProjectMilestoneNotification</members>
         <members>Milestone1_ProjectXML</members>
         <members>Milestone1_ProjectXMLImport</members>
         <members>Milestone1_Projects</members>
@@ -427,7 +408,6 @@
         <members>Milestone1_TasksCalendar</members>
         <members>Milestone1_TasksMilestone</members>
         <members>Milestone1_TestProjectMilestones</members>
-        <members>Milestone1_TheFollowingSalesforceProjectMilestoneItems</members>
         <members>Milestone1_TheProjectCannotBeNull</members>
         <members>Milestone1_TheXMLFileForYourProjectHasBeenSuccessfully</members>
         <members>Milestone1_TheXMLFileIsTooLarge</members>
@@ -469,7 +449,6 @@
         <members>Milestone1_Expense__c</members>
         <members>Milestone1_Log__c</members>
         <members>Milestone1_Milestone__c</members>
-        <members>Milestone1_Nag__c</members>
         <members>Milestone1_Project__c</members>
         <members>Milestone1_Settings__c</members>
         <members>Milestone1_Task__c</members>
@@ -512,7 +491,6 @@
         <members>Milestone1_Log__c-Simple Project Log Layout</members>
         <members>Milestone1_Milestone__c-Complete Project Milestone Layout</members>
         <members>Milestone1_Milestone__c-Simple Project Milestone Layout</members>
-        <members>Milestone1_Nag__c-Project Nag Layout</members>
         <members>Milestone1_Project__c-Complete Project Layout</members>
         <members>Milestone1_Project__c-Simple Project Layout</members>
         <members>Milestone1_Task__c-Complete Project Task Layout</members>
@@ -591,8 +569,6 @@
         <members>Milestone1_Milestone__c.Kickoff_before_deadline</members>
         <members>Milestone1_Milestone__c.Milestone_between_Project_duration</members>
         <members>Milestone1_Milestone__c.Milestone_must_have_parent_record</members>
-        <members>Milestone1_Nag__c.Must_have_a_parent</members>
-        <members>Milestone1_Nag__c.Only_one_parent_allowed</members>
         <members>Milestone1_Project__c.Kickoff_before_deadline</members>
         <members>Milestone1_Project__c.Total_Expense_Budget_Negative_Numbers</members>
         <members>Milestone1_Project__c.Total_Hours_Budget_Negative_Numbers</members>
