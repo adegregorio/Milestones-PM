@@ -166,11 +166,6 @@
         <type>Picklist</type>
     </fields>
     <label>Log</label>
-    <listViews>
-        <fullName>All</fullName>
-        <filterScope>Everything</filterScope>
-        <label>All</label>
-    </listViews>
     <nameField>
         <displayFormat>LOG-{00000}</displayFormat>
         <label>Project Log Name</label>

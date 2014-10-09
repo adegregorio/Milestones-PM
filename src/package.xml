@@ -482,15 +482,11 @@
         <name>CustomPageWebLink</name>
     </types>
     <types>
-        <members>Milestone1_Expense__c</members>
-        <members>Milestone1_Getting_Started</members>
         <members>Milestone1_Import_Project_Template</members>
-        <members>Milestone1_Log__c</members>
         <members>Milestone1_Milestone__c</members>
         <members>Milestone1_Project__c</members>
         <members>Milestone1_Summary</members>
         <members>Milestone1_Task__c</members>
-        <members>Milestone1_Time__c</members>
         <members>Milestone_Calendar</members>
         <name>CustomTab</name>
     </types>
@@ -527,14 +523,11 @@
         <name>Layout</name>
     </types>
     <types>
-        <members>Milestone1_Expense__c.All</members>
-        <members>Milestone1_Log__c.All</members>
         <members>Milestone1_Milestone__c.All</members>
         <members>Milestone1_Milestone__c.My_Milestones</members>
         <members>Milestone1_Project__c.All</members>
         <members>Milestone1_Task__c.All</members>
         <members>Milestone1_Task__c.For_review</members>
-        <members>Milestone1_Time__c.All</members>
         <name>ListView</name>
     </types>
     <types>

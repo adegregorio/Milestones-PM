@@ -131,11 +131,6 @@
         <writeRequiresMasterRead>false</writeRequiresMasterRead>
     </fields>
     <label>Time</label>
-    <listViews>
-        <fullName>All</fullName>
-        <filterScope>Everything</filterScope>
-        <label>All</label>
-    </listViews>
     <nameField>
         <displayFormat>PT{0000}</displayFormat>
         <label>Project Time Name</label>
