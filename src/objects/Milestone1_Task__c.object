@@ -109,7 +109,23 @@
         <label>Type</label>
         <picklist>
             <picklistValues>
+                <fullName>Planning</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Consulting</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Meeting</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
                 <fullName>User story</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Improvement</fullName>
                 <default>false</default>
             </picklistValues>
             <picklistValues>
@@ -145,7 +161,7 @@
                 <default>false</default>
             </picklistValues>
             <picklistValues>
-                <fullName>Consulting</fullName>
+                <fullName>Other</fullName>
                 <default>false</default>
             </picklistValues>
             <sorted>false</sorted>

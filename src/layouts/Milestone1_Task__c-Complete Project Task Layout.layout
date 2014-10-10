@@ -41,7 +41,7 @@
                 <field>Task_Stage__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
+                <behavior>Required</behavior>
                 <field>Class__c</field>
             </layoutItems>
         </layoutColumns>
