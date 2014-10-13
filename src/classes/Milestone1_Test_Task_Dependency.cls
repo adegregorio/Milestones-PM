@@ -42,7 +42,7 @@ private class Milestone1_Test_Task_Dependency {
             Milestone1_Milestone__c parentMilestone = milestones[(Math.random() * milestones.size()).intValue()];
             Milestone1_Task__c taskRec = Milestone1_Test_Utility.sampleTask(parentMilestone);
             if(i > 0) taskRec.Predecessor_Task__c = tasks.values()[(Math.random() * tasks.size()).intValue()].Id;
-            tasks.put(taskRec.Name,taskRec);
+            tasks.put(taskRec.Summary__c, taskRec);
         }
         insert tasks.values();
 
@@ -62,7 +62,7 @@ private class Milestone1_Test_Task_Dependency {
                                                     ]);
         areShiftedMilestones(milestones2, new Map<String, Milestone1_Milestone__c>(milestones), NUMBER_OF_DAYS_SHIFTED);
         Map<String,Milestone1_Task__c> tasks2 = new Map<String,Milestone1_Task__c>([SELECT
-                                                Name,Start_Date__c,Due_Date__c
+                                                Name, Summary__c, Start_Date__c,Due_Date__c
                                             FROM Milestone1_Task__c
                                             WHERE Project_Milestone__c = :ms2.Id
                                             OR Project_Milestone__r.Parent_Milestone__c = :ms2.Id
@@ -73,7 +73,7 @@ private class Milestone1_Test_Task_Dependency {
 
         Milestone1_Task__c task;
         for(Milestone1_Task__c taskOriginal : tasks2.values()){
-            task = tasks.get(taskOriginal.Name);
+            task = tasks.get(taskOriginal.Summary__c);
 
             if(taskOriginal.Due_Date__c != null && task.Due_Date__c != null && taskOriginal.Start_Date__c != null && task.Start_Date__c != null) {
                 System.assertEquals(task.Due_Date__c.daysBetween(taskOriginal.Due_Date__c) , NUMBER_OF_DAYS_SHIFTED, 'TASK date not shifted');

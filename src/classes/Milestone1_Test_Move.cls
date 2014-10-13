@@ -591,6 +591,7 @@ private class Milestone1_Test_Move {
       // Validate Move
       List<Milestone1_Task__c> tasks_moved = [SELECT Id,
                                                      Name,
+                                                     Summary__c,
                                                      Due_Date__c,
                                                      Start_Date__c,
                                                      Estimated_Expense__c,
@@ -603,7 +604,7 @@ private class Milestone1_Test_Move {
                                                      Last_Email_Received__c
                                                  FROM Milestone1_Task__c
                                                  WHERE Project_Milestone__c = :ms2.Id
-                                                      AND Name = :task1.Name];
+                                                      AND Summary__c = :task1.Summary__c];
 
       System.assertEquals(1, tasks_moved.size(), 'Tasks moved comparison failed');
 

@@ -2,45 +2,45 @@
 Copyright (c) 2011, salesforce.com, Inc.
 All rights reserved.
 
-Redistribution and use in source and binary forms, with or without modification, 
+Redistribution and use in source and binary forms, with or without modification,
 are permitted provided that the following conditions are met:
 
-    * Redistributions of source code must retain the above copyright notice, 
+    * Redistributions of source code must retain the above copyright notice,
     this list of conditions and the following disclaimer.
-    * Redistributions in binary form must reproduce the above copyright notice, 
-    this list of conditions and the following disclaimer in the documentation 
+    * Redistributions in binary form must reproduce the above copyright notice,
+    this list of conditions and the following disclaimer in the documentation
     and/or other materials provided with the distribution.
-    * Neither the name of the salesforce.com, Inc. nor the names of its contributors 
-    may be used to endorse or promote products derived from this software 
+    * Neither the name of the salesforce.com, Inc. nor the names of its contributors
+    may be used to endorse or promote products derived from this software
     without specific prior written permission.
 
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
-ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
-IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, 
-INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, 
-DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF 
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE 
-OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED 
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
 OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
 public with sharing class Milestone1_Move_Task_Extension {
-    
+
     public List<Milestone1_Task__c> recs {get; set;}
-    
+
     //RSC 2011-09-20 Added to support successor / predecessor notes
     private Set<Id> recIds {get;set;}
-    
+
     public Milestone1_Task__c dummyTask {get; set;}
     public Boolean showSave {get; set;}
     public Boolean anySelected {get; set;}
-    
+
     public Boolean hasChildren {get; set;}
     public Boolean hasMultipleMilestones {get;set;}
     public Boolean hasPredecessorTasks {get;set;}
-    
+
     private String taskId;
     private ApexPages.Standardsetcontroller stc;
 
@@ -58,22 +58,23 @@ public with sharing class Milestone1_Move_Task_Extension {
         recs = stc.getSelected();
         processSelection(recs);
     }
-    
+
     private void processSelection(List<Milestone1_Task__c> processList)
     {
     	Set<Id> milestones = new Set<Id>();
-    	
+
         recs = processList;
         anySelected = recs.size() > 0;
-        
+
         recIds = new Set<Id>();
         for(Milestone1_Task__c rec : recs){
             recIds.add(rec.Id);
         }
-        
+
         //query task records
         recs = [SELECT Id,
                        Name,
+                       Summary__c,
                        Project_Milestone__c,
                        Assigned_To__c,
                        Complete__c,
@@ -97,11 +98,11 @@ public with sharing class Milestone1_Move_Task_Extension {
                 FROM Milestone1_Task__c
                 WHERE Id IN :recIds
                ];
-        
+
         hasChildren = false;
         hasPredecessorTasks = false;
         hasMultipleMilestones = false;
-        
+
         for(Milestone1_Task__c rec : recs){
             if(rec.Project_Times__r.size() > 0 ||
                rec.Project_Expenses__r.size() > 0 ||
@@ -115,29 +116,29 @@ public with sharing class Milestone1_Move_Task_Extension {
             	hasPredecessorTasks = true;
             }
         }
-        
+
         hasMultipleMilestones = milestones.size() > 1;
-        
+
         showSave = anySelected && !hasChildren;
-        
+
         dummyTask = new Milestone1_Task__c();
     }
-    
+
     //tested in Milestone1 Test Move
     public PageReference moveTasks(){
-        
+
         try
         {
 		//fail if their are multiple milestones and preds involved. too complex.
 		if (hasMultipleMilestones && hasPredecessorTasks) {
 			throw new Milestone1_Move_Exception('Cannot move when you are selecting tasks with precessors from multiple milestones.  Reduce your list and try again.');
 		}
-		
+
 		//future parent.
         Milestone1_Milestone__c ms = [SELECT Id, Complete__c FROM Milestone1_Milestone__c WHERE Id = :dummyTask.Project_Milestone__c];
 
 		//if we move tasks with successors, and we move ALL of those tasks, we're fine.
-		//however, if we have successors, and we don't move all of them, data gets terrible.      	
+		//however, if we have successors, and we don't move all of them, data gets terrible.
         /*
             assume this structure:
             Task    Pred
@@ -145,21 +146,21 @@ public with sharing class Milestone1_Move_Task_Extension {
             t2      t1
             t3      t2
             t4      [none]
-            
+
             If user selects t1 and t2, those should fail since t2 is listed as a predecessor for t3
             if user selected t1, t2 and t3, that should succeed. since no tasks are listed as predecessors for these
         */
-        List<Milestone1_Task__c> successors = [Select Id From Milestone1_Task__c WHERE 
+        List<Milestone1_Task__c> successors = [Select Id From Milestone1_Task__c WHERE
             Predecessor_Task__c in :recIds AND Id not in :recIds];
-        
+
        if (successors.size() > 0) {
            throw new Milestone1_Move_Exception('Selected tasks have successors which are not selected. Clear those and try again OR select only tasks which have no successors.');
-       } 
-       
+       }
+
        //OK nothing immediately wrong so let's give it a shot.
-        
+
         Map<String, Milestone1_Task__c> newTasksMap = Milestone1_Clone_Utility.cloneTasksIntoMap(recs);
-        
+
         for(Milestone1_Task__c newTask : newTasksMap.values()){
             if(newTask.Project_Milestone__c == ms.Id) {
                 throw new Milestone1_Move_Exception(Milestone1_Move_Exception.ERROR_TASK_ALREADY_ASSIGNED_MILESTONE);
@@ -167,12 +168,12 @@ public with sharing class Milestone1_Move_Task_Extension {
             if( ms.Complete__c ){
             	throw new Milestone1_Move_Exception(Milestone1_Move_Exception.ERROR_MILESTONE_COMPLETE);
             }
-            
+
             newTask.Project_Milestone__c = ms.Id;
         }
-        
+
         insert newTasksMap.values();
-        
+
         List<Milestone1_Log__c> logs = [SELECT Id, Project_Task__c FROM Milestone1_Log__c WHERE Project_Task__c IN :newTasksMap.keySet()];
         if(logs.size() > 0){
             for(Milestone1_Log__c log : logs){
@@ -180,7 +181,7 @@ public with sharing class Milestone1_Move_Task_Extension {
             }
         }
         update logs;
-        
+
         delete recs;
         if(taskId != null)
         {
@@ -199,7 +200,7 @@ public with sharing class Milestone1_Move_Task_Extension {
             ApexPages.addMessage(errorMsg);
             return ApexPages.currentPage();
         }
-        
+
     }
 
 }

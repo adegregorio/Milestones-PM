@@ -1,33 +1,33 @@
-/* 
+/*
 Copyright (c) 2011, salesforce.com, Inc.
 All rights reserved.
- 
-Redistribution and use in source and binary forms, with or without modification, 
+
+Redistribution and use in source and binary forms, with or without modification,
 are permitted provided that the following conditions are met:
 
-    * Redistributions of source code must retain the above copyright notice, 
+    * Redistributions of source code must retain the above copyright notice,
     this list of conditions and the following disclaimer.
-    * Redistributions in binary form must reproduce the above copyright notice, 
-    this list of conditions and the following disclaimer in the documentation 
+    * Redistributions in binary form must reproduce the above copyright notice,
+    this list of conditions and the following disclaimer in the documentation
     and/or other materials provided with the distribution.
-    * Neither the name of the salesforce.com, Inc. nor the names of its contributors 
-    may be used to endorse or promote products derived from this software 
+    * Neither the name of the salesforce.com, Inc. nor the names of its contributors
+    may be used to endorse or promote products derived from this software
     without specific prior written permission.
 
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
-ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
-IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, 
-INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, 
-DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF 
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE 
-OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED 
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
 OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
 public with sharing class Milestone1_Clone_Milestone_Controller {
-    
+
     public Milestone1_Milestone__c rec {get; set;}
     public Milestone1_Milestone__c dummyMS {get; set;}
     private List<Milestone1_Milestone__c> milestones {get; set;}
@@ -37,7 +37,7 @@ public with sharing class Milestone1_Clone_Milestone_Controller {
     public boolean isInactiveUserToBeReplaced{get;set;}
 
     public Milestone1_Clone_Milestone_Controller(ApexPages.StandardController stc){
-       // query main milestone record 
+       // query main milestone record
         rec = [SELECT Id,
                       Name,
                       Project__c,
@@ -52,8 +52,8 @@ public with sharing class Milestone1_Clone_Milestone_Controller {
                       FROM Milestone1_Milestone__c
                       WHERE Id = :stc.getId()
                      ];
-        
-        // query sub milestone records 
+
+        // query sub milestone records
         milestones = [SELECT Id,
                              Name,
                              Parent_Milestone__c,
@@ -66,9 +66,10 @@ public with sharing class Milestone1_Clone_Milestone_Controller {
                       FROM Milestone1_Milestone__c
                       WHERE Parent_Milestone__c = :rec.Id
                      ];
-        
-        // query task records 
+
+        // query task records
         tasks = [SELECT Id,
+                        Summary__c,
                         Name,
                         Project_Milestone__c,
                         Assigned_To__c,
@@ -88,15 +89,15 @@ public with sharing class Milestone1_Clone_Milestone_Controller {
                  WHERE Project_Milestone__c = :rec.Id
                  OR Project_Milestone__r.Parent_Milestone__c = :rec.Id
                 ];
-        
+
         dummyMS = new Milestone1_Milestone__c();
         dummyMS.Name = 'Copy of ' + rec.Name;
-        
+
         statusList = [SELECT IsActive from User where id = :rec.OwnerId];
         if(statusList != null && statusList.size() > 0 )
-            isMilestoneOwnerActive = statusList[0].IsActive; 
+            isMilestoneOwnerActive = statusList[0].IsActive;
     }
-    
+
     public PageReference createClone(){
 
         PageReference pageReference = null;
@@ -108,29 +109,29 @@ public with sharing class Milestone1_Clone_Milestone_Controller {
                    isInactiveUserToBeReplaced = true;
                    return pageReference;
                 }if (dummyMS.OwnerId != null){
-                    rec.ownerId = dummyMS.OwnerId; 
+                    rec.ownerId = dummyMS.OwnerId;
                 }
               }
-            
+
             //clone and insert main milestone record
             List<Milestone1_Milestone__c> mainMilestoneList = new List<Milestone1_Milestone__c>();
             rec.Name = dummyMS.Name;
             mainMilestoneList.add(rec);
             Map<String, Milestone1_Milestone__c> newTopMilestoneMap = Milestone1_Clone_Utility.cloneMilestonesIntoMap(mainMilestoneList);
             insert newTopMilestoneMap.values();
-            
+
             //clone and insert sub milestone records
             Map<String, Milestone1_Milestone__c> newBottomMilestoneMap = Milestone1_Clone_Utility.cloneMilestonesIntoMap(milestones);
             for(Milestone1_Milestone__c newMS : newBottomMilestoneMap.values()){
                 newMS.Parent_Milestone__c = newTopMilestoneMap.get(newMS.Parent_Milestone__c).Id;
             }
             insert newBottomMilestoneMap.values();
-            
+
             //collect all milestones into one map
             Map<String, Milestone1_Milestone__c> allNewMilestoneMap = new Map<String, Milestone1_Milestone__c>();
             allNewMilestoneMap.putAll(newTopMilestoneMap);
             allNewMilestoneMap.putAll(newBottomMilestoneMap);
-            
+
             //clone and insert task records
             List<Milestone1_Task__c> newTasks = Milestone1_Clone_Utility.cloneTasksIntoList(tasks);
             for(Milestone1_Task__c newTask : newTasks){
@@ -138,10 +139,11 @@ public with sharing class Milestone1_Clone_Milestone_Controller {
             }
             insert newTasks;
             pageReference = new ApexPages.StandardController(newTopMilestoneMap.values()[0]).view();
-             
+
         }catch(Exception ex){
             Apexpages.addMessages(ex);
         }
+
         //direct user to cloned milestone's detail page
         return pageReference;
     }

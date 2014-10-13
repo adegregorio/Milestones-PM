@@ -249,6 +249,7 @@
         <members>Milestone1_Task__c.Project__c</members>
         <members>Milestone1_Task__c.Short_ID__c</members>
         <members>Milestone1_Task__c.Start_Date__c</members>
+        <members>Milestone1_Task__c.Summary__c</members>
         <members>Milestone1_Task__c.Task_Number__c</members>
         <members>Milestone1_Task__c.Task_Stage__c</members>
         <members>Milestone1_Task__c.Total_Expense__c</members>

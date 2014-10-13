@@ -98,6 +98,7 @@ public with sharing class Milestone1_TimelineCon {
             //query task records
             tasks = [SELECT Id,
                             Name,
+                            Summary__c,
                             Project_Milestone__c,
                             Assigned_To__c,
                             Complete__c,
@@ -125,7 +126,7 @@ public with sharing class Milestone1_TimelineCon {
         if ( rec.Kickoff__c != null ) {
             Milestone1_Task__c tt = new Milestone1_Task__c();
             tt.Start_Date__c = rec.kickoff__c;
-            tt.name = 'Kickoff';
+            tt.Summary__c = 'Kickoff';
             tt.Description__c = rec.name + ' kickoff date ';
             milestoneEvent me = new milestoneEvent(tt);
             me.classname = 'kickoff';
@@ -135,7 +136,7 @@ public with sharing class Milestone1_TimelineCon {
         if ( rec.Deadline__c != null ) {
             Milestone1_Task__c tt = new Milestone1_Task__c();
             tt.Start_Date__c = rec.Deadline__c;
-            tt.name = 'Deadline';
+            tt.Summary__c = 'Deadline';
             tt.Description__c = rec.name + ' deadline date ';
             milestoneEvent me = new milestoneEvent(tt);
             me.classname = 'deadline';

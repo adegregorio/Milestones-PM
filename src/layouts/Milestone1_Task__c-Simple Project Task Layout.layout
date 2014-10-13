@@ -9,7 +9,7 @@
         <layoutColumns>
             <layoutItems>
                 <behavior>Required</behavior>
-                <field>Name</field>
+                <field>Summary__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>

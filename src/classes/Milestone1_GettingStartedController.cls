@@ -125,6 +125,7 @@ public with sharing class Milestone1_GettingStartedController {
                 : milestoneKickoff;
             milestone.Complete__c = milestone.Name.startsWith('1');
             milestone.Alias__c = getUniqueAlias(milestone, aliasCount);
+            aliasCount++;
 
             milestones.add(milestone);
             milestoneKickoff = milestone.Deadline__c;

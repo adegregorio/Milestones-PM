@@ -1,34 +1,34 @@
-/* 
+/*
 Copyright (c) 2011, salesforce.com, Inc.
 All rights reserved.
 
-Redistribution and use in source and binary forms, with or without modification, 
+Redistribution and use in source and binary forms, with or without modification,
 are permitted provided that the following conditions are met:
- 
-    * Redistributions of source code must retain the above copyright notice, 
+
+    * Redistributions of source code must retain the above copyright notice,
     this list of conditions and the following disclaimer.
-    * Redistributions in binary form must reproduce the above copyright notice, 
-    this list of conditions and the following disclaimer in the documentation 
+    * Redistributions in binary form must reproduce the above copyright notice,
+    this list of conditions and the following disclaimer in the documentation
     and/or other materials provided with the distribution.
-    * Neither the name of the salesforce.com, Inc. nor the names of its contributors 
-    may be used to endorse or promote products derived from this software 
+    * Neither the name of the salesforce.com, Inc. nor the names of its contributors
+    may be used to endorse or promote products derived from this software
     without specific prior written permission.
 
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
-ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
-IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, 
-INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, 
-DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF 
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE 
-OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED 
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
 OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
 global with sharing class Milestone1_XML_Export_Utility {
-    
-    private Milestone1_Project__c project;  
+
+    private Milestone1_Project__c project;
     private List<Milestone1_Milestone__c>  milestones;
     private Map<ID,Milestone1_Milestone__c>  milestonesMap;
     private List<Milestone1_Task__c> milestonesTasks;
@@ -37,7 +37,7 @@ global with sharing class Milestone1_XML_Export_Utility {
     private Map<ID,Milestone1_Milestone__c>  subMilestonesMap;
     private List<Milestone1_Task__c> subMilestonesTasks;
     private Map<ID,Milestone1_Task__c> subMilestonesTasksMap;
-    
+
     global Milestone1_XML_Export_Utility()
     {
         milestonesMap = new Map<ID,Milestone1_Milestone__c>();
@@ -67,38 +67,37 @@ global with sharing class Milestone1_XML_Export_Utility {
             subMilestonesMap.put(subMilestone.Id,subMilestone);
         }
         //Retrieve all the Milestone Tasks
-        milestonesTasks = [Select m.Id, m.Name, m.Description__c,m.Predecessor_Task__c, m.Estimated_Hours__c, m.Estimated_Expense__c, m.Start_Date__c, m.Due_Date__c, m.Priority__c, m.Project_Milestone__c, m.Complete__c From Milestone1_Task__c m where m.Project_Milestone__c in : milestonesMap.keySet()];
+        milestonesTasks = [Select m.Id, m.Name, m.Summary__c, m.Description__c,m.Predecessor_Task__c, m.Estimated_Hours__c, m.Estimated_Expense__c, m.Start_Date__c, m.Due_Date__c, m.Priority__c, m.Project_Milestone__c, m.Complete__c From Milestone1_Task__c m where m.Project_Milestone__c in : milestonesMap.keySet()];
         for(Milestone1_Task__c task : milestonesTasks)
         {
             milestonesTasksMap.put(task.Id,task);
         }
         //Retreive all the Sub Miltestone Tasks
-        submilestonesTasks = [Select m.Id, m.Name, m.Description__c,m.Predecessor_Task__c,m.Estimated_Hours__c, m.Estimated_Expense__c,m.Start_Date__c, m.Due_Date__c, m.Priority__c, m.Project_Milestone__c ,m.Complete__c From Milestone1_Task__c m where m.Project_Milestone__c in : subMilestonesMap.keySet()];
-        for(Milestone1_Task__c task : submilestonesTasks)
+        submilestonesTasks = [Select m.Id, m.Name, m.Summary__c, m.Description__c,m.Predecessor_Task__c,m.Estimated_Hours__c, m.Estimated_Expense__c,m.Start_Date__c, m.Due_Date__c, m.Priority__c, m.Project_Milestone__c ,m.Complete__c From Milestone1_Task__c m where m.Project_Milestone__c in : subMilestonesMap.keySet()]; for(Milestone1_Task__c task : submilestonesTasks)
         {
             subMilestonesTasksMap.put(task.Id,task);
         }
-      
+
         return project;
     }
-    
+
     global String buildProjectXmlString(ID targetId) {
         project = lookup(targetId);
         Xmlstreamwriter out = new Xmlstreamwriter();
-        
+
         out.writeStartDocument(null,Milestone1_Constants.XML_VERSION);
-        
+
         out.writeStartElement(null, Milestone1_Constants.XML_EXPORT, null);
         out.writeStartElement(null, Milestone1_Constants.XML_META, null);
-        
+
         writeElement(out, Milestone1_Constants.XML_EXPORT_PACKAGE, Milestone1_Constants.XML_EXPORT_PACKAGE_VAL);
         writeElement(out, Milestone1_Constants.XML_EXPORT_AUTHOR, UserInfo.getName());
-        writeElement(out, Milestone1_Constants.XML_EXPORT_ORG, UserInfo.getOrganizationName());     
+        writeElement(out, Milestone1_Constants.XML_EXPORT_ORG, UserInfo.getOrganizationName());
         writeElement(out, Milestone1_Constants.XML_EXPORT_DATE, System.now());
         writeElement(out, Milestone1_Constants.XML_EXPORT_VERSION,Milestone1_Constants.XML_EXPORT_VERSION_VAL);
-        
+
         out.writeEndElement();
-        
+
         writeProjectToXML(out,project);
 
         out.writeEndDocument();
@@ -121,9 +120,9 @@ global with sharing class Milestone1_XML_Export_Utility {
         {
             writeMilestoneToXML(out,milestone,true);
         }
-        out.writeEndElement();  
+        out.writeEndElement();
     }
-    
+
     global void writeMilestoneToXML(XMLstreamwriter out, Milestone1_Milestone__c milestone, Boolean isParentMilestone )
     {
         List<Milestone1_Task__c> tasks;
@@ -164,15 +163,15 @@ global with sharing class Milestone1_XML_Export_Utility {
                 writeMilestoneToXML(out,subMilestone,false);
             }
         }
-        out.writeEndElement();  
+        out.writeEndElement();
     }
-    
-    
+
+
     global void writeTaskToXML(XMLstreamwriter out, Milestone1_Task__c task ){
         out.writeStartElement(null, Milestone1_Constants.OBJ_NAME_TASK, null);
         writeElement(out,'Id', task.Id);
         writeElement(out,'Description__c',task.Description__c);
-        writeElement(out,'Name',task.Name);
+        writeElement(out,'Summary__c',task.Summary__c);
         writeElement(out,'Estimated_Hours__c',task.Estimated_Hours__c);
         writeElement(out,'Estimated_Expense__c',task.Estimated_Expense__c);
          /**
@@ -185,16 +184,16 @@ global with sharing class Milestone1_XML_Export_Utility {
         writeElement(out,'Start_Date__c',task.Start_Date__c);
         writeElement(out,'Due_Date__c',task.Due_Date__c);
         writeElement(out,'Project_Milestone__c',task.Project_Milestone__c);
-        out.writeEndElement();  
+        out.writeEndElement();
     }
-    
+
     global void writeElement(Xmlstreamwriter out, String tag, Object content) {
     if(content != null){
             out.writeStartElement(null, tag, null);
             out.writeCharacters(EncodingUtil.urlEncode(String.valueOf(content), 'UTF-8'));
             out.writeEndElement();
-        }  
+        }
     }
-    
-    
+
+
 }

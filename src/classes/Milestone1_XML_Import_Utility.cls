@@ -1,7 +1,7 @@
-/* 
+/*
 Copyright (c) 2011, salesforce.com, Inc.
 All rights reserved.
- 
+
 Redistribution and use in source and binary forms, with or without modification,
 are permitted provided that the following conditions are met:
 
@@ -27,24 +27,18 @@ OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
 global with sharing class Milestone1_XML_Import_Utility {
-    
-   global with sharing class XML_Metadata {
-     String ExportVersion; 
-     String ExportAuthor;
-     String ExportPackage;
-     String ExportOrganization;
-     DateTime ExportCreateDate;
-   }
-    
+
+    global with sharing class XML_Metadata {
+        String ExportVersion;
+        String ExportAuthor;
+        String ExportPackage;
+        String ExportOrganization;
+        DateTime ExportCreateDate;
+    }
+
     Milestone1_Project__c project;
     List<Milestone1_Milestone__c> milestones;
     List<Milestone1_Milestone__c> subMilestones;
-    /**
-      *Bug # 44.
-      *Modified Date:04-18-2012.
-      *Owner: Persistent.
-      *Comments:Importing the project with all the relationships intact.
-    */
     List<Milestone1_Milestone__c> successorsList;
     List<Milestone1_Task__c> tasks;
     List<Milestone1_Task__c> subTasks;
@@ -56,40 +50,32 @@ global with sharing class Milestone1_XML_Import_Utility {
         project = new Milestone1_Project__c();
         milestones = new List<Milestone1_Milestone__c>();
         subMilestones = new List<Milestone1_Milestone__c>();
-        /**
-      	 *Bug # 44.
-      	 *Modified Date:04-18-2012.
-       	 *Owner: Persistent.
-         *Comments:Importing the project with all the relationships intact.
-        */
         successorsList=new List<Milestone1_Milestone__c>();
         tasks = new List<Milestone1_Task__c>();
         subTasks = new List<Milestone1_Task__c>();
         times = new List<Milestone1_Time__c>();
     }
-    
+
     global Milestone1_Project__c importProject(String xml) {
 
-Savepoint sp = Database.setSavepoint();
-try{
-Xmlstreamreader reader = new Xmlstreamreader(xml);
-while (reader.hasNext()) {
-if (reader.getEventType() == XmlTag.START_ELEMENT && reader.getLocalName() == Milestone1_Constants.XML_META) {
-//System.debug(LoggingLevel.warn, 'Parse XML Metadata');
-parseMeta(reader);
-}
-if (reader.getEventType() == XmlTag.START_ELEMENT && reader.getLocalName() == Milestone1_Constants.OBJ_NAME_PROJECT) {
-//System.debug(LoggingLevel.warn, 'Parse XML Project');
-parseProject(reader);
-}
-reader.next();
-}
-insertSalesforceObjects();
-}catch(Exception ex){
-Database.rollback(sp);
-throw ex;
-//throw new Milestone1_Import_Exception(Milestone1_Import_Exception.ERROR_INVALID_XML);
-}
+        Savepoint sp = Database.setSavepoint();
+        try{
+            Xmlstreamreader reader = new Xmlstreamreader(xml);
+            while (reader.hasNext()) {
+                if (reader.getEventType() == XmlTag.START_ELEMENT && reader.getLocalName() == Milestone1_Constants.XML_META) {
+                    parseMeta(reader);
+                }
+                if (reader.getEventType() == XmlTag.START_ELEMENT && reader.getLocalName() == Milestone1_Constants.OBJ_NAME_PROJECT) {
+                    parseProject(reader);
+                }
+                reader.next();
+            }
+            insertSalesforceObjects();
+        }catch(Exception ex){
+            Database.rollback(sp);
+            throw ex;
+            //throw new Milestone1_Import_Exception(Milestone1_Import_Exception.ERROR_INVALID_XML);
+        }
         return project;
     }
 
@@ -101,7 +87,7 @@ throw ex;
         {
             throw new Milestone1_Import_Exception(system.label.Milestone1_ProjectCannotBeNull);
         }
-        
+
         //attempt to validate 10 variations of the name
         String targetName = '%' + project.Name + '%';
         Integer existingLikeName = [Select Count() from Milestone1_Project__c where Name LIKE :targetName];
@@ -109,51 +95,45 @@ throw ex;
         {
             project.Name = project.Name + ' Copy ' + (existingLikeName +1);
         }
-        
+
         insert project;
         //system.debug('Project ID after insert == ' + project.Id);
-         /**
-	      *Bug # 44.
-	      *Modified Date:04-18-2012.
-	      *Owner: Persistent.
-	      *Comments:Importing the project with all the relationships intact.
-    	 */
-        
-	        for(Milestone1_Milestone__c currentMilestone : milestones)
-	        {
-	            currentMilestone.Project__c = project.Id;
-	            if(currentMilestone.Predecessor_Milestone__c!=null)
-	            	{
-	            		successorsList.add(currentMilestone);
-	            		currentMilestone.Predecessor_Milestone_Import_Id__c=currentMilestone.Predecessor_Milestone__c;
-	            		currentMilestone.Predecessor_Milestone__c=null;
-	            	}
-	        }
-        
+
+        for(Milestone1_Milestone__c currentMilestone : milestones)
+        {
+            currentMilestone.Project__c = project.Id;
+            if(currentMilestone.Predecessor_Milestone__c!=null)
+            {
+                successorsList.add(currentMilestone);
+                currentMilestone.Predecessor_Milestone_Import_Id__c=currentMilestone.Predecessor_Milestone__c;
+                currentMilestone.Predecessor_Milestone__c=null;
+            }
+        }
+
         insert milestones;
-        
+
         for(Milestone1_Milestone__c currentMilestone : milestones)
         {
             currentMilestone.Project__c = project.Id;
             matchMilestonesToMilestones(subMilestones,currentMilestone);
         }
         for(Milestone1_Milestone__c currentMilestone : subMilestones)
-        if(currentMilestone.Predecessor_Milestone__c!=null)
-	            	{
-	            		successorsList.add(currentMilestone);
-	            		currentMilestone.Predecessor_Milestone_Import_Id__c=currentMilestone.Predecessor_Milestone__c;
-	            		currentMilestone.Predecessor_Milestone__c=null;
-	            	}
-	    insert subMilestones;
-        
+            if(currentMilestone.Predecessor_Milestone__c!=null)
+            {
+                successorsList.add(currentMilestone);
+                currentMilestone.Predecessor_Milestone_Import_Id__c=currentMilestone.Predecessor_Milestone__c;
+                currentMilestone.Predecessor_Milestone__c=null;
+            }
+        insert subMilestones;
+
         for(Milestone1_Milestone__c currentMilestone : milestones){
-        	updatePredecessorMilestones(currentMilestone);
+            updatePredecessorMilestones(currentMilestone);
         }
         for(Milestone1_Milestone__c currentMilestone: subMilestones){
-        	updatePredecessorMilestones(currentMilestone);
+            updatePredecessorMilestones(currentMilestone);
         }
-        
-		update successorsList;
+
+        update successorsList;
         //System.debug('NUMBER OF TASKS == ' + tasks.size());
         for(Milestone1_Task__c currentTask : tasks)
         {
@@ -162,40 +142,40 @@ throw ex;
             foundMatch = matchTaskToMilestone(milestones,currentTask);
             foundMatch = matchTaskToMilestone(subMilestones,currentTask);
         }
-        
+
         for(Milestone1_Task__c currentTask : tasks)
-        	{
-        		currentTask.Predecessor_Task_Import_Id__c=currentTask.Predecessor_Task__c;
-        		currentTask.Predecessor_Task__c=null;
-        	}
+        {
+            currentTask.Predecessor_Task_Import_Id__c=currentTask.Predecessor_Task__c;
+            currentTask.Predecessor_Task__c=null;
+        }
         insert tasks;
         system.debug('tasks'+tasks);
-        
+
         for(Milestone1_Task__c currentTask : tasks){
-        		matchTaskToTask(currentTask);
+            matchTaskToTask(currentTask);
         }
         update subtasks;
         system.debug('subtasks'+subtasks);
-        
+
         for(Milestone1_Time__c currentTime : times){
-         matchTimetoTask(tasks,currentTime);
+            matchTimetoTask(tasks,currentTime);
         }
-        
+
         insert times;
     }
-    
+
     global void updatePredecessorMilestones(Milestone1_Milestone__c currentMilestone){
-    	
-    	for(Milestone1_Milestone__c milestone:successorsList){
-    		
-    		if(milestone.Predecessor_Milestone_Import_Id__c==currentMilestone.ImportID__c)
-    			{
-    				milestone.Predecessor_Milestone__c=currentMilestone.Id;
-    			    milestone.Project__c = currentMilestone.Project__c;
-    			}
-    	}
+
+        for(Milestone1_Milestone__c milestone:successorsList){
+
+            if(milestone.Predecessor_Milestone_Import_Id__c==currentMilestone.ImportID__c)
+            {
+                milestone.Predecessor_Milestone__c=currentMilestone.Id;
+                milestone.Project__c = currentMilestone.Project__c;
+            }
+        }
     }
-    
+
     global void matchMilestonesToMilestones(List<Milestone1_Milestone__c> milestones, Milestone1_Milestone__c currentMilestone){
         for(Milestone1_Milestone__c currentSubMilestone : milestones)
         {
@@ -206,7 +186,7 @@ throw ex;
             }
         }
     }
-    
+
     global Boolean matchTaskToMilestone(List<Milestone1_Milestone__c> milestones, Milestone1_Task__c currentTask){
         for(Milestone1_Milestone__c currentMilestone : milestones){
             if(currentTask.Project_Milestone__c == currentMilestone.ImportID__c){
@@ -216,22 +196,22 @@ throw ex;
         }
         return false;
     }
-	global void matchTaskToTask(Milestone1_Task__c currentTask){
-		for(Milestone1_Task__c task:subTasks){
-			 if(task.Predecessor_Task_Import_Id__c==currentTask.ImportID__c){
-                 task.Predecessor_Task__c=currentTask.id;
-             }
-		}
-	}
-	global Boolean matchTimeToTask(List<Milestone1_Task__c> tasks, Milestone1_Time__c currentTime){
-	for(Milestone1_Task__c currentTask : tasks){
-	if(currentTime.Project_Task__c == currentTask.ImportID__c){
-	currentTime.Project_Task__c = currentTask.Id;
-	return true;
-	}
-	}
-	return false;
-	}
+    global void matchTaskToTask(Milestone1_Task__c currentTask){
+        for(Milestone1_Task__c task:subTasks){
+            if(task.Predecessor_Task_Import_Id__c==currentTask.ImportID__c){
+                task.Predecessor_Task__c=currentTask.id;
+            }
+        }
+    }
+    global Boolean matchTimeToTask(List<Milestone1_Task__c> tasks, Milestone1_Time__c currentTime){
+        for(Milestone1_Task__c currentTask : tasks){
+            if(currentTime.Project_Task__c == currentTask.ImportID__c){
+                currentTime.Project_Task__c = currentTask.Id;
+                return true;
+            }
+        }
+        return false;
+    }
 
     global void parseProject(Xmlstreamreader reader) {
         //name goes to name
@@ -278,7 +258,7 @@ throw ex;
                 //system.debug('Processing Project Milestone');
                 reader.next();
                 parseMilestone(reader,null);
-                }
+            }
             //handle import id field
             if (reader.getEventType() == XMLTag.START_ELEMENT && reader.getLocalName() == 'Id') {
                 //System.debug(LoggingLevel.warn, 'in id');
@@ -300,10 +280,10 @@ throw ex;
             reader.next();
         }
     }
-    
+
     global void parseMilestone(Xmlstreamreader reader, Milestone1_Milestone__c parentMilestone)
     {
-        
+
         Milestone1_Milestone__c currentMilestone = new Milestone1_Milestone__c();
         if(parentMilestone != null)
         {
@@ -314,7 +294,7 @@ throw ex;
             //System.debug(LoggingLevel.warn, 'in Milestone');
         }
         currentMilestone.Project__c = project.ImportID__c;
-        
+
         while (reader.hasNext()){
             if (reader.getEventType() == XMLTag.START_ELEMENT && reader.getLocalName() == 'Id') {
                 reader.next();
@@ -335,7 +315,7 @@ throw ex;
                 reader.next();
                 currentMilestone.Description__c = getDecodedString(reader);
             }
-            
+
             if (reader.getEventType() == XMLTag.START_ELEMENT && reader.getLocalName() == 'Hours_Budget__c') {
                 reader.next();
                 String val = getDecodedString(reader);
@@ -344,16 +324,16 @@ throw ex;
                 currentMilestone.Hours_Budget__c = Decimal.valueOf(val);
             }
             /**
-              *Bug # 44.
-              *Modified Date:04-18-2012.
-              *Owner: Persistent.
-              *Comments:Importing the project with all the relationships intact.
-            */
+             *Bug # 44.
+             *Modified Date:04-18-2012.
+             *Owner: Persistent.
+             *Comments:Importing the project with all the relationships intact.
+             */
             if (reader.getEventType() == XMLTag.START_ELEMENT && reader.getLocalName() == 'Predecessor_Milestone__c'){
                 reader.next();
                 currentMilestone.Predecessor_Milestone__c =getDecodedString(reader);
-               
-             }
+
+            }
             if (reader.getEventType() == XMLTag.START_ELEMENT && reader.getLocalName() == 'Kickoff__c'){
                 reader.next();
                 String val=getDecodedString(reader);
@@ -367,15 +347,15 @@ throw ex;
                 if(val == null || val == 'null')
                     val= '';
                 currentMilestone.Deadline__c=date.valueOf(val);
-                
+
             }
-          
+
             if (reader.getEventType() == XMLTag.START_ELEMENT && reader.getLocalName() == Milestone1_Constants.OBJ_NAME_MILESTONE) {
                 //system.debug('Processing Sub Milestone');
                 reader.next();
                 parseMilestone(reader,currentMilestone);
             }
-           
+
             if (reader.getEventType() == XMLTag.START_ELEMENT && reader.getLocalName() == Milestone1_Constants.OBJ_NAME_TASK) {
                 //system.debug('Processing Sub Tasks');
                 reader.next();
@@ -397,7 +377,7 @@ throw ex;
             milestones.add(currentMilestone);
         }
     }
-    
+
     global void parseTask(XMLStreamreader reader, Milestone1_Milestone__c currentMilestone){
         Milestone1_Task__c currentTask = new Milestone1_Task__c();
         currentTask.Project_Milestone__c = currentMilestone.ImportID__c;
@@ -411,10 +391,10 @@ throw ex;
                 reader.next();
                 currentTask.Description__c = getDecodedString(reader);
             }
-            if (reader.getEventType() == XMLTag.START_ELEMENT && reader.getLocalName() == 'Name') {
+            if (reader.getEventType() == XMLTag.START_ELEMENT && reader.getLocalName() == 'Summary__c') {
                 reader.next();
-                currentTask.Name = getDecodedString(reader);
-                if(currentTask.Name == null){system.debug('Name is NULL '); currentTask.Name = 'Name Blank';}
+                currentTask.Summary__c = getDecodedString(reader);
+                if(currentTask.Summary__c == null){system.debug('Summary__c is NULL '); currentTask.Summary__c = 'Name Blank';}
             }
             if (reader.getEventType() == XMLTag.START_ELEMENT && reader.getLocalName() == 'Estimated_Hours__c') {
                 reader.next();
@@ -422,7 +402,7 @@ throw ex;
                 if(val == null || val == 'null')
                     val = '0.0';currentTask.Estimated_Hours__c = Decimal.valueOf(val);
             }
-            
+
             if (reader.getEventType() == XMLTag.START_ELEMENT && reader.getLocalName() == 'Estimated_Hours__c') {
                 reader.next();
                 String val = getDecodedString(reader);
@@ -436,12 +416,6 @@ throw ex;
                     val = '0.0';
                 currentTask.Estimated_Expense__c = Decimal.valueOf(val);
             }
-            /**
-              *Bug # 44.
-              *Modified Date:04-18-2012.
-              *Owner: Persistent.
-              *Comments:Importing the project with all the relationships intact.
-            */
             if (reader.getEventType() == XMLTag.START_ELEMENT && reader.getLocalName() == 'Predecessor_Task__c') {
                 reader.next();
                 currentTask.Predecessor_Task__c=getDecodedString(reader);
@@ -450,14 +424,14 @@ throw ex;
                 reader.next();
                 currentTask.Project_Milestone__c=getDecodedString(reader);
             }
-             if (reader.getEventType() == XMLTag.START_ELEMENT && reader.getLocalName() == 'Start_Date__c') {
+            if (reader.getEventType() == XMLTag.START_ELEMENT && reader.getLocalName() == 'Start_Date__c') {
                 reader.next();
                 String val = getDecodedString(reader);
                 if(val == null || val == 'null')
                     val='';
                 currentTask.Start_Date__c=date.valueOf(val);
             }
-             if (reader.getEventType() == XMLTag.START_ELEMENT && reader.getLocalName() == 'Due_Date__c') {
+            if (reader.getEventType() == XMLTag.START_ELEMENT && reader.getLocalName() == 'Due_Date__c') {
                 reader.next();
                 String val = getDecodedString(reader);
                 if(val == null || val == 'null')
@@ -469,7 +443,7 @@ throw ex;
                 reader.next();
                 parseTime(reader,currentTask);
             }
-            
+
             if(reader.getEventType() == XMLTag.END_ELEMENT && reader.getLocalName() == Milestone1_Constants.OBJ_NAME_TASK)
             {
                 //system.debug('Break out of TASK');
@@ -477,14 +451,14 @@ throw ex;
             }
             reader.next();
         }
-        
+
         if( currentTask.Predecessor_Task__c != null)
         {
-             subTasks.add(currentTask);
+            subTasks.add(currentTask);
         }
         tasks.add(currentTask);
     }
-    
+
     global void parseTime(XMLStreamreader reader, Milestone1_Task__c currentTask){
         Milestone1_Time__c currentTime = new Milestone1_Time__c();
         currentTime.Project_Task__c = currentTask.ImportID__c;
@@ -514,7 +488,7 @@ throw ex;
         }
         times.add(currentTime);
     }
-    
+
     global void parseMeta(Xmlstreamreader reader) {
         //system.debug('Process Metadata');
         while (reader.hasNext()) {
@@ -554,7 +528,7 @@ throw ex;
             reader.next();
         }
     }
-    
+
     global String getDecodedString(Xmlstreamreader reader) {
         return EncodingUtil.urlDecode(reader.getText(), 'UTF-8').trim();
     }

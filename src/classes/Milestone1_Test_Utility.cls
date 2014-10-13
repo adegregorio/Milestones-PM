@@ -100,9 +100,9 @@ public with sharing class Milestone1_Test_Utility {
         Milestone1_Task__c rec = new Milestone1_Task__c();
         rec.Project_Milestone__c = milestoneId;
         rec.Assigned_To__c = UserInfo.getUserId();
-        rec.Name = 'MS ' + milestoneId + ' task ' + Datetime.now().getTime();
+        rec.Summary__c = 'MS ' + milestoneId + ' task ' + Datetime.now().getTime();
         rec.Complete__c = isComplete; //getRandomBool(.25);
-        rec.Description__c   = 'test description ' + rec.Name;
+        rec.Description__c   = 'test description ' + rec.Summary__c;
         rec.Start_Date__c   = kickoff;
         rec.Due_Date__c   = deadline;
         rec.Estimated_Expense__c = 100.00;
@@ -125,7 +125,7 @@ public with sharing class Milestone1_Test_Utility {
         rec.Project_Milestone__c = milestoneId;
         rec.Assigned_To__c = UserInfo.getUserId();
         rec.Predecessor_Task__c=PredecessorTaskId;
-        rec.Name = 'MS ' + milestoneId + ' task ' + Datetime.now().getTime();
+        rec.Summary__c = 'MS ' + milestoneId + ' task ' + Datetime.now().getTime();
         rec.Description__c   = 'test description ' + rec.Name;
         rec.Start_Date__c   = kickoff;
         rec.Due_Date__c   = deadline;
@@ -290,7 +290,7 @@ public with sharing class Milestone1_Test_Utility {
         List<Milestone1_Task__c> tasks = new List<Milestone1_Task__c>();
         for(Integer i = 0; i < size; i++){
             task = sampleTask(parentMilestone.Id);
-            task.Name =  'ts'+i;
+            task.Summary__c =  'ts'+i;
             tasksMap.put(task.Name,task);
         }
         insert tasksMap.values();
@@ -305,7 +305,7 @@ public with sharing class Milestone1_Test_Utility {
         milestoneId = mileId;
         for(Integer i = 0; i < size; i++){
             task = Milestone1_Test_Utility.sampleTask(milestoneId,predecessorTask.id,predecessorTask.Due_Date__c.addDays(1),predecessorTask.Due_Date__c.addDays(1));
-            task.Name =  'ts'+i;
+            task.Summary__c =  'ts'+i;
             tasksMap.put(task.Name ,task);
         }
         insert tasksMap.values();
