@@ -225,6 +225,10 @@
         <apexClass>Milestone1_repeatCon</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+    <classAccesses>
+        <apexClass>TasksHomeComponentController</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
     <custom>true</custom>
     <fieldPermissions>
         <editable>true</editable>
@@ -1148,6 +1152,10 @@
     <pageAccesses>
         <apexPage>Milestone1_TimelineData</apexPage>
         <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>TasksHomeComponent</apexPage>
+        <enabled>false</enabled>
     </pageAccesses>
     <tabVisibilities>
         <tab>Milestone1_Project__c</tab>

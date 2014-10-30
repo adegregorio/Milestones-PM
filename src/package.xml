@@ -61,6 +61,7 @@
         <members>Milestone1_XML_Import_Utility</members>
         <members>Milestone1_XML_Import_Utility_Test</members>
         <members>Milestone1_repeatCon</members>
+        <members>TasksHomeComponentController</members>
         <name>ApexClass</name>
     </types>
     <types>
@@ -91,6 +92,7 @@
         <members>Milestone1_TestProjectPage</members>
         <members>Milestone1_Timeline</members>
         <members>Milestone1_TimelineData</members>
+        <members>TasksHomeComponent</members>
         <name>ApexPage</name>
     </types>
     <types>
@@ -484,6 +486,7 @@
     </types>
     <types>
         <members>Add A Task</members>
+        <members>MyTasksList</members>
         <name>HomePageComponent</name>
     </types>
     <types>

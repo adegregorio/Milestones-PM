@@ -1,0 +1,32 @@
+<apex:page showHeader="false" sideBar="false" controller="TasksHomeComponentController" >
+    <apex:form id="form">
+        <apex:pageBlock title="My Tasks" id="myTasksBlock">
+            <apex:pageBlockTable value="{!myTasks}" var="task">
+                <apex:column headerValue="{!$ObjectType.Milestone1_Task__c.Fields.Short_ID__c.Label}"
+                    value="{!task.Short_ID__c}" />
+                <apex:column headerValue="{!$ObjectType.Milestone1_Task__c.Fields.Summary__c.Label}" >
+                    <apex:commandLink onclick="redirectTo('{!URLFOR($Action.Milestone1_Task__c.View, task.Id)}')"
+                        value="{!task.Summary__c}" />
+                </apex:column>
+                <apex:column headerValue="{!$ObjectType.Milestone1_Task__c.Fields.Priority__c.Label}"
+                    value="{!task.Priority__c}" />
+                <apex:column headerValue="{!$ObjectType.Milestone1_Task__c.Fields.Class__c.Label}"
+                    value="{!task.Class__c}" />
+                <apex:column headerValue="{!$ObjectType.Milestone1_Task__c.Fields.Task_Stage__c.Label}"
+                    value="{!task.Task_Stage__c}" />
+                <apex:column headerValue="{!$ObjectType.Milestone1_Task__c.Fields.Due_Date__c.Label}"
+                    value="{!task.Due_Date__c}" />
+                <apex:column headerValue="{!$ObjectType.Milestone1_Task__c.Fields.Blocked__c.Label}"
+                    value="{!task.Blocked__c}" />
+                <apex:column headerValue="{!$ObjectType.Milestone1_Task__c.Fields.Hours_Balance__c.Label}"
+                    value="{!task.Hours_Balance__c}" />
+            </apex:pageBlockTable>
+        </apex:pageBlock>
+    </apex:form>
+
+    <script type="text/javascript">
+        function redirectTo(url) {
+            window.parent.location = url;
+        }
+    </script>
+</apex:page>
