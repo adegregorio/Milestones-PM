@@ -28,7 +28,8 @@ OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 public class Milestone1_Task_Trigger_Utility {
 
-    private static final Schema.SObjectType entitySubscriptionType = Milestone1_Schema_Helper.getGlobalDescribe().get('entitysubscription');
+    private static final Schema.SObjectType entitySubscriptionType =
+        Milestone1_Schema_Helper.getGlobalDescribe().get('entitysubscription');
     public static final string SUBSCRIPTION_LIMIT_EXCEEDED = system.label.Milestone1_MaximumPer;
 
     public static void handleTaskAfterTrigger(
@@ -37,7 +38,7 @@ public class Milestone1_Task_Trigger_Utility {
     ) {
         Milestone1_Task__c oldRec;
         List<sObject> existingSubscriptions = new List<sObject>();
-        List<Id> newRecordsIds = new List<Id>(Trigger.newMap.keySet());
+        List<Id> newRecordsIds = new List<Id> (Trigger.newMap.keySet());
 
         // Retrieve existing list of Subscriptions for the Task(s) and store in Map by User.
         // Salesforce does not allow user to subscribe to same object more than once so we can store
@@ -62,6 +63,7 @@ public class Milestone1_Task_Trigger_Utility {
         List<sObject> subscriptionsAddList = new List<sObject>();
         List<sObject> subscriptionsDeleteList = new List<sObject>();
         List<Milestone1_Log__c> taskBlockerLogs = new List<Milestone1_Log__c>();
+	List<Milestone1_Task__c> newTasksForReview = new List<Milestone1_Task__c>();
 
         // Iterate over the list of Tasks and evaluate the Chatter rules to follow/unfollow based on
         // Custom Settings for Users/Profiles
@@ -77,6 +79,10 @@ public class Milestone1_Task_Trigger_Utility {
             if (taskChangedToBlocked(rec, oldRec)) {
                 taskBlockerLogs.add(createTaskBlockerLog(rec));
             }
+
+	    if (movedToReview(rec, oldRec)) {
+		newTasksForReview.add(rec);
+	    }
 
             // If the Task is Assigned to a User then we can proceed
             if (rec.Assigned_To__c != null) {
@@ -144,6 +150,7 @@ public class Milestone1_Task_Trigger_Utility {
             insert taskBlockerLogs;
             insert subscriptionsAddList;
             delete subscriptionsDeleteList;
+	    notifyReviewers(newTasksForReview);
         } catch(Exception e) {
             //TODO Validate the type of exception
             recs[0].addError(e.getMessage());
@@ -167,12 +174,115 @@ public class Milestone1_Task_Trigger_Utility {
         );
     }
 
+    private static Boolean movedToReview(
+            Milestone1_Task__c newRecord,
+            Milestone1_Task__c oldRecord
+    ) {
+        return newRecord.Task_Stage__c == 'For review'
+            && (oldRecord == null || oldRecord.Task_Stage__c != 'For review');
+    }
+
+    private static void notifyReviewers(List<Milestone1_Task__c> tasksForReview) {
+        Map<Id, List<Milestone1_Task__c>> tasksByProject = getTasksByProject(tasksForReview);
+        Map<Id, User> reviewerByProject = getReviewersByProject(tasksByProject.keySet());
+
+        List<Messaging.SingleEmailMessage> emailsToSend = new List<Messaging.SingleEmailMessage>();
+
+        for (Id projectId : tasksByProject.keySet()) {
+            emailsToSend.add(
+                buildEmail(reviewerByProject.get(projectId), tasksByProject.get(projectId))
+            );
+        }
+        sendEmails(emailsToSend);
+    }
+
+    private static Map<Id, List<Milestone1_Task__c>> getTasksByProject(
+            List<Milestone1_Task__c> tasksForReview
+    ) {
+        Map<Id, List<Milestone1_Task__c>> tasksByProject = new Map<Id, List<Milestone1_Task__c>>();
+
+        for (Milestone1_Task__c task : tasksForReview) {
+            List<Milestone1_Task__c> projectTasks = tasksByProject.get(task.ProjectId__c);
+
+            if (projectTasks == null) {
+                projectTasks = new List<Milestone1_Task__c>();
+                tasksByProject.put(task.ProjectId__c, projectTasks);
+            }
+            projectTasks.add(task);
+        }
+        return tasksByProject;
+    }
+
+    private static Map<Id, User> getReviewersByProject(Set<Id> projectsIds) {
+
+        List<Milestone1_Project__c> projects = [
+            SELECT
+                Id,
+                OwnerId
+            FROM
+                Milestone1_Project__c
+            WHERE
+                Id IN :projectsIds
+        ];
+
+        Set<Id> reviewersIds = new Set<Id>();
+        for (Milestone1_Project__c project : projects) {
+            reviewersIds.add(project.OwnerId);
+        }
+
+        Map<Id, User> reviewers = new Map<Id, User>([
+            SELECT
+                Id,
+                Name,
+                Email
+            FROM
+                User
+            WHERE
+                Id IN :reviewersIds
+        ]);
+
+        Map<Id, User> reviewersByProject = new Map<Id, User>();
+        for (Milestone1_Project__c project : projects) {
+            reviewersByProject.put(project.Id, reviewers.get(project.OwnerId));
+        }
+        return reviewersByProject;
+    }
+
+    private static Messaging.SingleEmailMessage buildEmail(
+            User reviewer,
+            List<Milestone1_Task__c> tasks
+    ) {
+        Messaging.SingleEmailMessage message = new Messaging.SingleEmailMessage();
+        message.setToAddresses(new List<String> {reviewer.Email});
+        message.setReplyTo('no-reply@kovida.is');
+        message.setSenderDisplayName('Kovida\'s Milestones PM');
+        message.setSubject('New tasks for review');
+
+        String htmlBody = '<p>' +
+            'This is an email automaically sent by Kovida\'s Milestones PM app because you are ' +
+            'the owner of a project. One or more tasks have been moved to the "For review" stage:' +
+            '</p>' +
+            '<ul>';
+        for (Milestone1_Task__c task : tasks) {
+            htmlBody += '<li><a href="' +
+                URL.getSalesforceBaseUrl().toExternalForm() + '/' + task.Id + '">' +
+                task.Summary__c + '</a></li>';
+        }
+        htmlBody += '</ul>';
+
+        message.setHtmlBody(htmlBody);
+        return message;
+    }
+
+    private static void sendEmails(List<Messaging.SingleEmailMessage> emailsToSend) {
+        Messaging.sendEmail(emailsToSend);
+    }
+
     /*
        handles successor dependencies.
        looks at changes to predecessor task due date and adjusts successor tasks start and due date
        by the same number of days.
      */
-
     public static void checkSuccessorDependencies(
             Map<Id, Milestone1_Task__c> oldMap,
             Map<Id, Milestone1_Task__c> newMap
