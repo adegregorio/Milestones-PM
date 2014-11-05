@@ -28,133 +28,36 @@ OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 public class Milestone1_Task_Trigger_Utility {
 
-    private static final Schema.SObjectType entitySubscriptionType =
-        Milestone1_Schema_Helper.getGlobalDescribe().get('entitysubscription');
     public static final string SUBSCRIPTION_LIMIT_EXCEEDED = system.label.Milestone1_MaximumPer;
 
     public static void handleTaskAfterTrigger(
-            List<Milestone1_Task__c> recs,
-            List<Milestone1_Task__c> oldRecs
+            Map<Id, Milestone1_Task__c> newTasksMap,
+            Map<Id, Milestone1_Task__c> oldTasksMap
     ) {
-        Milestone1_Task__c oldRec;
-        List<sObject> existingSubscriptions = new List<sObject>();
-        List<Id> newRecordsIds = new List<Id> (Trigger.newMap.keySet());
-
-        // Retrieve existing list of Subscriptions for the Task(s) and store in Map by User.
-        // Salesforce does not allow user to subscribe to same object more than once so we can store
-        // in map.
-        if (Milestone1_Schema_Helper.isOrgChatterEnabled()) {
-            String queryString =
-                'SELECT ' +
-                    'Id, ' +
-                    'ParentId, ' +
-                    'SubscriberId ' +
-                'FROM ' +
-                    'EntitySubscription ' +
-                'WHERE ' +
-                    'ParentId in (\'' + String.join(newRecordsIds, '\',\'') + '\')';
-            existingSubscriptions = Database.query(queryString);
-        }
-
-        // Create a Map of Users to Subscriptions
-        Map<String,List<sObject>> userSubscriptionMap =
-            Milestone1_Task_Trigger_Utility.buildUserSubscriptionMap(existingSubscriptions);
-
-        List<sObject> subscriptionsAddList = new List<sObject>();
-        List<sObject> subscriptionsDeleteList = new List<sObject>();
         List<Milestone1_Log__c> taskBlockerLogs = new List<Milestone1_Log__c>();
 	List<Milestone1_Task__c> newTasksForReview = new List<Milestone1_Task__c>();
 
-        // Iterate over the list of Tasks and evaluate the Chatter rules to follow/unfollow based on
-        // Custom Settings for Users/Profiles
-        Integer i = 0;
-        for (Milestone1_Task__c rec : recs) {
-            oldRec = null;
+        for (Milestone1_Task__c currentTask : newTasksMap.values()) {
+            Milestone1_Task__c oldTask = oldTasksMap != null
+                ? oldTasksMap.get(currentTask.Id)
+                : null;
 
-            // Retrieve the old record which matches current record
-            if (oldRecs != null && oldRecs.size() > i) {
-                oldRec = oldRecs.get(i);
+            if (taskChangedToBlocked(currentTask, oldTask)) {
+                taskBlockerLogs.add(createTaskBlockerLog(currentTask));
             }
 
-            if (taskChangedToBlocked(rec, oldRec)) {
-                taskBlockerLogs.add(createTaskBlockerLog(rec));
-            }
-
-	    if (movedToReview(rec, oldRec)) {
-		newTasksForReview.add(rec);
+	    if (movedToReview(currentTask, oldTask)) {
+		newTasksForReview.add(currentTask);
 	    }
-
-            // If the Task is Assigned to a User then we can proceed
-            if (rec.Assigned_To__c != null) {
-                List<sObject> existingSubscriptionList = userSubscriptionMap.get(rec.Assigned_To__c);
-                sObject existingSubscription = getSubscriptionForUserAndRec(
-                    rec,
-                    existingSubscriptionList,
-                    userSubscriptionMap
-                );
-
-                AutoChatterSetting chatterSettings = new AutoChatterSetting(
-                    rec.Assigned_To__c,
-                    rec.Assigned_To__r.ProfileId
-                );
-
-                // If the custom setting for automatically following is true, lets perform auto
-                // chatter logic
-                if (chatterSettings.autoFollow) {
-
-                    // If the there is not an existing subscription for the user, go ahead and
-                    // follow the object. This prevents DUPLICATE_VALUE exception on subscription
-                    // insert.
-                    if (existingSubscription == null && entitySubscriptionType != null) {
-                        sObject subscription = entitySubscriptionType.newSObject();
-                        subscription.put('parentId',rec.id);
-                        subscription.put('SubscriberId',rec.Assigned_To__c);
-                        subscriptionsAddList.add(subscription);
-                    }
-                }
-
-                // If the custom setting for automatically unfollowing is true, let perform auto
-                // chatter logic to unfollow for the user.
-                if (chatterSettings.autoCompleteFollow && rec.Complete__c
-                        && existingSubscription != null
-                ) {
-                    subscriptionsDeleteList.add(existingSubscription);
-                }
-            }
-
-            // Lets remove the previous Assigned To Follower if oldRec exists, and if the Assignment
-            // changed to another user.
-            if (oldRec != null && oldRec.Assigned_To__c != null
-                    && oldRec.Assigned_To__c != rec.Assigned_To__c
-            ) {
-                AutoChatterSetting chatterSettings = new AutoChatterSetting(
-                    oldRec.Assigned_To__c,
-                    oldRec.Assigned_To__r.ProfileId
-                );
-                List<sObject> existingSubscriptionList =
-                    userSubscriptionMap.get(oldRec.Assigned_To__c);
-                sObject existingSubscription = getSubscriptionForUserAndRec(
-                    oldRec,
-                    existingSubscriptionList,
-                    userSubscriptionMap
-                );
-
-                if (chatterSettings.autoUnassignFollow && existingSubscription != null) {
-                    subscriptionsDeleteList.add(existingSubscription);
-                }
-            }
-            i++;
         }
 
-        try {
-            insert taskBlockerLogs;
-            insert subscriptionsAddList;
-            delete subscriptionsDeleteList;
-	    notifyReviewers(newTasksForReview);
-        } catch(Exception e) {
-            //TODO Validate the type of exception
-            recs[0].addError(e.getMessage());
-        }
+        TasksChatterManager tasksChatterMgr = new TasksChatterManager(newTasksMap, oldTasksMap);
+        insert tasksChatterMgr.newSubscriptions;
+        delete tasksChatterMgr.subscriptionsToRemove;
+
+        insert taskBlockerLogs;
+
+        notifyReviewers(newTasksForReview);
     }
 
     private static Boolean taskChangedToBlocked(
@@ -323,40 +226,6 @@ public class Milestone1_Task_Trigger_Utility {
         update successorsToUpdate;
     }
 
-    public static sObject getSubscriptionForUserAndRec(
-            Milestone1_Task__c rec,
-            List<sObject> existingSubscriptionList,
-            Map<String, List<sObject>> userSubscriptionMap
-    ) {
-        sObject existingSubscription = null;
-        if (userSubscriptionMap.get(rec.Assigned_To__c) != null) {
-            for (sObject tempSubscription : existingSubscriptionList) {
-                if ((id)tempSubscription.get('SubscriberId') == rec.Assigned_To__c
-                        && (id)tempSubscription.get('ParentId') == rec.Id
-                ) {
-                    existingSubscription = tempSubscription;
-                    break;
-                }
-            }
-        }
-        return existingSubscription;
-    }
-
-    public static Map<String, List<sObject>> buildUserSubscriptionMap(
-            List<sObject> existingSubscriptions
-    ) {
-        Map<String, List<sObject>> userSubscriptionMap = new Map<String, List<sObject>>();
-        for (sObject aSubscription : existingSubscriptions) {
-            if (userSubscriptionMap.get( (id)aSubscription.get('SubscriberId')) == null) {
-                userSubscriptionMap.put( (id)aSubscription.get('SubscriberId'),new List<sObject>());
-            }
-            List<sObject> tempList = userSubscriptionMap.get((id)aSubscription.get('SubscriberId'));
-            tempList.add(aSubscription);
-            userSubscriptionMap.put((id)aSubscription.get('SubscriberId'),tempList);
-        }
-        return userSubscriptionMap;
-    }
-
     public static void handleTaskBeforeTrigger(List<Milestone1_Task__c> recs) {
         Map<String,Milestone1_Milestone__c> taskMilestoneMap =
             Milestone1_Task_Trigger_Utility.retrieveParentMilestones(recs);
@@ -426,35 +295,6 @@ public class Milestone1_Task_Trigger_Utility {
         }
 
         return taskMilestoneMap;
-    }
-
-    private class AutoChatterSetting
-    {
-        public Boolean autoFollow = false;
-        public Boolean autoCompleteFollow = false;
-        public Boolean autoUnassignFollow = false;
-
-        public autoChatterSetting(String userid, String profileId) {
-            Milestone1_Settings__c orgChatterDefaults = Milestone1_Settings__c.getOrgDefaults();
-            Milestone1_Settings__c profileChatter = Milestone1_Settings__c.getInstance(userid);
-            Milestone1_Settings__c userChatter = Milestone1_Settings__c.getInstance(profileid);
-
-            //If the User has a custom Chatter setting, use this setting else use a profile setting
-            // if available
-            if (userChatter != null) {
-                autoFollow = userChatter.Auto_Follow_Task__c;
-                autoCompleteFollow = userChatter.Auto_Follow_Complete_Task__c;
-                autoUnassignFollow = userChatter.Auto_Unfollow_Reassignment__c;
-            } else if (profileChatter != null) {
-                autoFollow = profileChatter.Auto_Follow_Task__c;
-                autoCompleteFollow = profileChatter.Auto_Follow_Complete_Task__c;
-                autoUnassignFollow = profileChatter.Auto_Unfollow_Reassignment__c;
-            } else if (orgChatterDefaults != null) {
-                autoFollow = orgChatterDefaults.Auto_Follow_Task__c;
-                autoCompleteFollow = orgChatterDefaults.Auto_Follow_Complete_Task__c;
-                autoUnassignFollow = orgChatterDefaults.Auto_Unfollow_Reassignment__c;
-            }
-        }
     }
 
     /**

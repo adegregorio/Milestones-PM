@@ -62,6 +62,7 @@
         <members>Milestone1_XML_Import_Utility_Test</members>
         <members>Milestone1_repeatCon</members>
         <members>TasksHomeComponentController</members>
+        <members>TasksChatterManager</members>
         <name>ApexClass</name>
     </types>
     <types>
