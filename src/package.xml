@@ -61,6 +61,8 @@
         <members>Milestone1_XML_Import_Utility</members>
         <members>Milestone1_XML_Import_Utility_Test</members>
         <members>Milestone1_repeatCon</members>
+        <members>PostInstallScript</members>
+        <members>PostInstallScriptTest</members>
         <members>TasksHomeComponentController</members>
         <members>TasksChatterManager</members>
         <name>ApexClass</name>
