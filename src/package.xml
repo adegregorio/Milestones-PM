@@ -252,6 +252,7 @@
         <members>Milestone1_Task__c.ProjectStatus__c</members>
         <members>Milestone1_Task__c.Project_Milestone__c</members>
         <members>Milestone1_Task__c.Project__c</members>
+        <members>Milestone1_Task__c.Release_version__c</members>
         <members>Milestone1_Task__c.Short_ID__c</members>
         <members>Milestone1_Task__c.Start_Date__c</members>
         <members>Milestone1_Task__c.Summary__c</members>

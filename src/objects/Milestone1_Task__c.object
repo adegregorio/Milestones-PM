@@ -493,6 +493,17 @@
         <unique>false</unique>
     </fields>
     <fields>
+        <fullName>Release_version__c</fullName>
+        <description>Release version where the task was included.</description>
+        <externalId>false</externalId>
+        <label>Release version</label>
+        <length>20</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
         <fullName>Short_ID__c</fullName>
         <externalId>false</externalId>
         <inlineHelpText>Unique number for each task and across all projects.</inlineHelpText>
