@@ -63,8 +63,8 @@
         <members>Milestone1_repeatCon</members>
         <members>PostInstallScript</members>
         <members>PostInstallScriptTest</members>
-        <members>TasksHomeComponentController</members>
         <members>TasksChatterManager</members>
+        <members>TasksHomeComponentController</members>
         <name>ApexClass</name>
     </types>
     <types>

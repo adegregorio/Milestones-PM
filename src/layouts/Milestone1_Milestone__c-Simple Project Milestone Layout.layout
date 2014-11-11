@@ -155,6 +155,7 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
+        <fields>Summary__c</fields>
         <fields>Priority__c</fields>
         <fields>Class__c</fields>
         <fields>Task_Stage__c</fields>

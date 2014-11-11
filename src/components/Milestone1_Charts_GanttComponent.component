@@ -9,9 +9,9 @@
     <apex:includeScript value="/soap/ajax/20.0/connection.js"/>
 
     <apex:attribute name="target" type="String" required="true"
-                    description="The Project This is For" assignTo="{!mytarget}" />
+        description="The Project This is For" assignTo="{!mytarget}" />
     <apex:attribute name="readonly" type="String"
-                    description="enable the event handlers like resizing and moving."/>
+        description="enable the event handlers like resizing and moving."/>
 
     <style>
         div.ganttview-block-text {
@@ -19,7 +19,7 @@
         }
     </style>
 
-    <div id="ganttChart{!target}"></div>
+    <div id="ganttChart{!target}" />
 
     <script type="text/javascript">
         <apex:outputText value="{!projectGanttJson}" />
@@ -27,24 +27,23 @@
 
         g{!target}(function () {
             var dropEvent = function (data) {
-                        var startDate = data["start"];
-                        var endDate = data["end"];
-                        var id = data["id"];
-                        var sobject;
-                        sobject = new sforce.SObject("{!objectType}");
-                        sobject["{!idFieldName}"] = id;
-                        sobject["{!startDateFieldName}"] = startDate;
-                        sobject["{!endDateFieldName}"] = endDate;
+                var startDate = data["start"];
+                var endDate = data["end"];
+                var id = data["id"];
+                var sobject;
+                sobject = new sforce.SObject("{!objectType}");
+                sobject["{!idFieldName}"] = id;
+                sobject["{!startDateFieldName}"] = startDate;
+                sobject["{!endDateFieldName}"] = endDate;
 
-                        sforce.connection.sessionId = "{!$Api.Session_ID}";
-                        sforce.connection.update([sobject],{
-                                onSuccess : function(result){
-                                            },
-                                onFailure : function(result){
-                                                alert('{!$Label.Milestone1_AnErrorHasOcurred}' +': '+result);
-                                            }
-                        })
+                sforce.connection.sessionId = "{!$Api.Session_ID}";
+                sforce.connection.update([sobject], {
+                    onSuccess : function(result){},
+                    onFailure : function(result){
+                        alert('{!$Label.Milestone1_AnErrorHasOcurred}' +': '+result);
                     }
+                });
+            };
             var readonly = "{!readonly}" != "true";
             g{!target}("#ganttChart{!target}").ganttView({
                 data: ganttData{!target},

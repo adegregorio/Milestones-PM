@@ -30,35 +30,22 @@ public with sharing class Milestone1_GettingStartedController {
 
     public Boolean settingsReady {get;set;}
     public Boolean projectReady {get;set;}
-
     public String lastResult {get;set;}
 
     public Milestone1_GettingStartedController() {
         settingsReady = Milestone1_Settings__c.getOrgDefaults() != null;
-
     }
 
     public void setupStandardSettings() {
-
         Milestone1_Settings__c settings = Milestone1_Settings__c.getOrgDefaults();
-
         if (settings != null) {
             lastResult = system.label.Milestone1_SettingsAlreadyExistNoChanges;
         } else {
             settings = getInitialSettingsWithoutSave();
-
-
-
             insert settings;
-
             settingsReady = true;
-
-
             handleGettingStartedProjectInitialization();
-
-
         }
-
     }
 
     public Milestone1_Project__c handleGettingStartedProjectInitialization() {
