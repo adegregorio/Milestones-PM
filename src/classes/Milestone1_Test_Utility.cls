@@ -178,18 +178,14 @@ public with sharing class Milestone1_Test_Utility {
     {
 
         Milestone1_Settings__c testRule = Milestone1_Settings__c.getOrgDefaults();
-        if(testRule == null)
-        {
+        if(testRule == null) {
             testRule = new Milestone1_Settings__c();
             testRule.SetupOwnerId = UserInfo.getUserId();
-            insert testRule;
         }
-            testRule.Auto_Follow_Task__c = autoFollowTasks;
-            testRule.Auto_Follow_Complete_Task__c = autoFollowTasks;
-            testRule.Auto_Unfollow_Reassignment__c = autoFollowTasks;
-            update testRule;
-            System.debug(testRule);
-
+        testRule.Auto_Follow_Task__c = autoFollowTasks;
+        testRule.Auto_Follow_Complete_Task__c = autoFollowTasks;
+        testRule.Auto_Unfollow_Reassignment__c = autoFollowTasks;
+        upsert testRule;
 
         return testRule;
     }

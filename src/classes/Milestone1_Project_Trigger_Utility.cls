@@ -57,29 +57,29 @@ public with sharing class Milestone1_Project_Trigger_Utility {
 
         List<Milestone1_Milestone__c> milestones = [
             SELECT
-                Id,
-                Name,
-                Project__c,
-                Parent_Milestone__c,
-                Complete__c,
-                Deadline__c,
-                Billable_Hours__c,
-                Non_Billable_Hours__c,
-                Total_Actual_Hours__c,
-                Total_Estimated_Hours__c,
-                Total_Actual_Expense__c,
-                Total_Estimated_Expense__c,
-                Total_Hours_Budget__c,
-                Total_Expense_Budget__c,
-                Total_Complete_Tasks__c,
-                Total_Open_Tasks__c,
-                Total_Late_Tasks__c,
-                Total_Blocked_Tasks__c
-            FROM
+            Id,
+            Name,
+            Project__c,
+            Parent_Milestone__c,
+            Complete__c,
+            Deadline__c,
+            Billable_Hours__c,
+            Non_Billable_Hours__c,
+            Total_Actual_Hours__c,
+            Total_Estimated_Hours__c,
+            Total_Actual_Expense__c,
+            Total_Estimated_Expense__c,
+            Total_Hours_Budget__c,
+            Total_Expense_Budget__c,
+            Total_Complete_Tasks__c,
+            Total_Open_Tasks__c,
+            Total_Late_Tasks__c,
+            Total_Blocked_Tasks__c
+                FROM
                 Milestone1_Milestone__c
-            WHERE
+                WHERE
                 Project__c IN :projectsById.keySet()
-        ];
+                ];
 
         for(Milestone1_Milestone__c ms : milestones){
             Milestone1_Project__c proj = projectsById.get(ms.Project__c);
@@ -129,73 +129,37 @@ public with sharing class Milestone1_Project_Trigger_Utility {
         }
 
         List<Milestone1_Milestone__c> milestones = [SELECT Id
-                                                    FROM Milestone1_Milestone__c
-                                                    WHERE Project__c IN :projectsById.keySet()
-                                                   ];
+            FROM Milestone1_Milestone__c
+            WHERE Project__c IN :projectsById.keySet()
+            ];
 
         // Delete / Batch delete milestones
         if( milestones.size() > 0 ){
-	    	if( milestones.size() + Limits.getDMLRows() > Limits.getLimitDmlRows() ){
-				Database.executeBatch( new Milestone1_Milestone_Batch_Delete(milestones) );
-			}
-			else{
-		        delete milestones;
-			}
+            if( milestones.size() + Limits.getDMLRows() > Limits.getLimitDmlRows() ){
+                Database.executeBatch( new Milestone1_Milestone_Batch_Delete(milestones) );
+            }
+            else{
+                delete milestones;
+            }
         }
     }
 
 
     /**
-    * Avoid duplicates names
-    * @param triggerList
-    */
+     * Avoid duplicates names
+     * @param triggerList
+     */
     public static void handleProjectInsertTrigger( List<Milestone1_Project__c> triggerList ){
-    	List<String> nameList = new List<String>();
-    	for( Milestone1_Project__c tm : triggerList ){ nameList.add( tm.Name ); }
-    	Integer projectCount = [SELECT count() FROM Milestone1_Project__c WHERE Name IN: nameList limit 1];
+        List<String> nameList = new List<String>();
+        for( Milestone1_Project__c tm : triggerList ){ nameList.add( tm.Name ); }
+        Integer projectCount = [SELECT count() FROM Milestone1_Project__c WHERE Name IN: nameList limit 1];
 
-    	//TODO Flesh out to be more specific -- right now this flags every project as problematic even if only one has a duplicate name
-    	if( projectCount > 0 ) {
-    		for( Milestone1_Project__c tm : triggerList ){
-    			tm.Name.addError( 'Project Name is already used.' );
-    		}
-    	}
+        //TODO Flesh out to be more specific -- right now this flags every project as problematic even if only one has a duplicate name
+        if( projectCount > 0 ) {
+            for( Milestone1_Project__c tm : triggerList ){
+                tm.Name.addError( 'Project Name is already used.' );
+            }
+        }
 
     }
-
-    /**
-	* Test milestone delete
-	*/
-	public static testmethod void testMilestoneDelete(){
-		// Create project
-		Milestone1_Project__c project = Milestone1_Test_Utility.sampleProject('My Test Project');
-
-		insert project;
-
-		// Create milestones
-		List<Milestone1_Milestone__c> mList = new List<Milestone1_Milestone__c>();
-
-		for(Integer i = 0; i < 101; i++){
-			mList.add( Milestone1_Test_Utility.sampleMilestone(project.Id, null, 'My Test Milestone ' + i) );
-		}
-
-		try{
-			insert mList;
-		}
-		catch(Exception e){
-			system.assert( false, e.getMessage() );
-		}
-
-		// Delete and check if it was successful
-		try{
-			Test.startTest();
-			handleProjectDeleteTrigger( new List<Milestone1_Project__c>{ project } );
-			Test.stopTest();
-
-			system.assertEquals(0, [SELECT count() FROM Milestone1_Milestone__c WHERE Project__c = :project.Id]);
-		}
-		catch(Exception e){
-			system.assert( false, e.getMessage() );
-		}
-	}
 }

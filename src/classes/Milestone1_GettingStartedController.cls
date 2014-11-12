@@ -195,99 +195,10 @@ public with sharing class Milestone1_GettingStartedController {
 
             Milestone1_Settings__c settings = new Milestone1_Settings__c();
 
-            List<Report> reports = [Select Id, Name from Report Where Name like '%(LPM1)'];
-
-            Id blockedTasks;
-            Id myTasks;
-            Id overdueTasks;
-            Id overallTaskStatus;
-            Id openTaskStatus;
-            Id projMilestones;
-            Id reportMyTasksAllProjects;
-            Id reportMyTasksByPriority;
-            Id summaryBlockedTasks;
-            Id summaryLateTasks;
-
-
-            //these change from install to install so we have to update in settings
-            for (Report current : reports) {
-                System.debug(current.name);
-                if (current.name.indexOf('Blocked Tasks by Project') > -1) {
-                    blockedTasks = current.Id;
-                } else if (current.name.indexOf('Summary: My Blocked Tasks') > -1) {
-                    summaryBlockedTasks = current.Id;
-                } else if (current.name.indexOf('Summary: My Late Tasks') > -1) {
-                    summaryLateTasks = current.Id;
-                } else if (current.name.indexOf('My Incomplete Tasks, By Project') > -1) {
-                    reportMyTasksAllProjects = current.id;
-                } else if (current.name.indexOf('My Incomplete Tasks, By Priority') > -1) {
-                    reportMyTasksByPriority = current.id;
-                } else if (current.name.indexOf('My') > -1) {
-                    myTasks = current.Id;
-                } else if (current.name.indexOf('Overdue') > -1) {
-                    overdueTasks = current.Id;
-                } else if (current.name.indexOf('Milestones and Open Tasks') > -1) {
-                    projMilestones = current.id;
-                } else if (current.name.indexOf('Open Tasks') > -1) {
-                    openTaskStatus = current.Id;
-                } else if (current.name.indexOf('Tasks By Project') > -1) {
-                    overallTaskStatus = current.id;
-                }
-            }
-            settings.Report_Id_Blocked_Tasks_by_Project__c = String.valueOf(blockedTasks).substring(0,15);
-            settings.Report_Id_My_tasks_by_project__c = String.valueOf(myTasks).substring(0,15);
-            settings.Report_Id_Overdue_Tasks_by_Project__c = String.valueOf(overdueTasks).substring(0,15);
-            settings.Report_Id_Task_Status_By_Project__c = String.valueOf(overallTaskStatus).substring(0,15);
-            settings.Report_Id_Open_Task_Status_by_Project__c = String.valueOf(openTaskStatus).substring(0,15);
-            settings.Report_Id_Project_Milestone_Open_Task__c = String.valueOf(projMilestones).substring(0,15);
-            settings.Report_Id_My_Tasks_By_Project_Milesto__c = String.valueOf(reportMyTasksAllProjects).substring(0,15);
-            settings.Report_Id_My_Tasks_By_Priority_Project__c = String.valueOf(reportMyTasksByPriority).substring(0,15);
-            settings.Report_Id_My_Blocked_Tasks__c = String.valueOf(summaryBlockedTasks).substring(0,15);
-            settings.Report_Id_My_Late_Tasks__c = String.valueOf(summaryLateTasks).substring(0,15);
-
             settings.Auto_Follow_Task__c = false;
             settings.Auto_Unfollow_Reassignment__c = false;
             settings.Auto_Follow_Complete_Task__c = false;
 
             return settings;
-
-    }
-
-    static testMethod void testGetSettings() {
-
-        Milestone1_GettingStartedController cont = new Milestone1_GettingStartedController();
-
-        Milestone1_Settings__c settings = cont.getInitialSettingsWithoutSave();
-
-        System.assert(settings.Report_Id_Blocked_Tasks_by_Project__c != null);
-        System.assert(settings.Report_Id_My_tasks_by_project__c != null);
-        System.assert(settings.Report_Id_Overdue_Tasks_by_Project__c != null);
-        System.assert(settings.Report_Id_Task_Status_By_Project__c != null);
-        System.assert(settings.Report_Id_Open_Task_Status_by_Project__c != null);
-        System.assert(settings.Report_Id_Project_Milestone_Open_Task__c != null);
-        System.assert(settings.Report_Id_My_Tasks_By_Project_Milesto__c != null);
-        System.assert(settings.Report_Id_My_Tasks_By_Priority_Project__c != null);
-        System.assert(settings.Report_Id_My_Blocked_Tasks__c != null);
-        System.assert(settings.Report_Id_My_Late_Tasks__c != null);
-
-        System.assert(!settings.Auto_Follow_Complete_Task__c);
-        System.assert(!settings.Auto_Follow_Task__c);
-        System.assert(!settings.Auto_Unfollow_Reassignment__c);
-
-    }
-
-
-    static testMethod void testGettingStartedProject() {
-
-        Test.startTest();
-
-        Milestone1_GettingStartedController cont = new Milestone1_GettingStartedController();
-
-        Milestone1_Project__c project = cont.handleGettingStartedProjectInitialization();
-
-        System.assert(project != null);
-
-        Test.stopTest();
-
     }
 }

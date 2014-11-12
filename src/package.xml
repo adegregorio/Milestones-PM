@@ -8,7 +8,9 @@
     <types>
         <members>DNP_Milestone1_Test_Move_LongRunning</members>
         <members>Milestone1_Calendar_Item</members>
+        <members>Milestone1_Calendar_Item_Test</members>
         <members>Milestone1_Charts_GanttController</members>
+        <members>Milestone1_Charts_GanttController_Test</members>
         <members>Milestone1_Charts_Gantt_Helper</members>
         <members>Milestone1_Clone_Milestone_Controller</members>
         <members>Milestone1_Clone_Project_Controller</members>
@@ -22,15 +24,19 @@
         <members>Milestone1_Export_Project_Controller</members>
         <members>Milestone1_Export_Project_Controller_Tst</members>
         <members>Milestone1_General_Utility</members>
+        <members>Milestone1_General_Utility_Test</members>
         <members>Milestone1_GettingStartedController</members>
+        <members>Milestone1_GettingStartedController_Test</members>
         <members>Milestone1_Import_Exception</members>
         <members>Milestone1_Import_Project_Controller</members>
         <members>Milestone1_Import_Project_Controller_Tst</members>
         <members>Milestone1_Milestone_Batch_Delete</members>
         <members>Milestone1_Milestone_Batch_Update</members>
+        <members>Milestone1_Milestone_Batch_Test</members>
         <members>Milestone1_Milestone_Trigger_Utility</members>
         <members>Milestone1_Milestone_Values_Helper</members>
         <members>Milestone1_Month</members>
+        <members>Milestone1_Month_Test</members>
         <members>Milestone1_Move_Exception</members>
         <members>Milestone1_Move_Milestone_Extension</members>
         <members>Milestone1_Move_Task_Extension</members>
@@ -38,10 +44,12 @@
         <members>Milestone1_One_Liner_Controller_Tst</members>
         <members>Milestone1_Project_Active_Sched_Update</members>
         <members>Milestone1_Project_Batch_Update</members>
+        <members>Milestone1_Project_Batch_Update_Test</members>
         <members>Milestone1_Project_Trigger_Utility</members>
         <members>Milestone1_Schema_Helper</members>
         <members>Milestone1_Schema_Helper_Tst</members>
         <members>Milestone1_Summary2</members>
+        <members>Milestone1_Summary2_Test</members>
         <members>Milestone1_Task_Chatter_Tst</members>
         <members>Milestone1_Task_Trigger_Utility</members>
         <members>Milestone1_Task_Trigger_Utility_Test</members>
@@ -61,8 +69,12 @@
         <members>Milestone1_XML_Import_Utility</members>
         <members>Milestone1_XML_Import_Utility_Test</members>
         <members>Milestone1_repeatCon</members>
+        <members>Milestone1_repeatCon_Test</members>
+        <members>Milestone_Trigger_Utility_Test</members>
         <members>PostInstallScript</members>
         <members>PostInstallScriptTest</members>
+        <members>Project_Active_Sched_Update_Test</members>
+        <members>Project_Trigger_Utility_Test</members>
         <members>TasksChatterManager</members>
         <members>TasksHomeComponentController</members>
         <name>ApexClass</name>

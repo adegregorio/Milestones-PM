@@ -281,7 +281,7 @@ private class Milestone1_Email_Handler_Tst {
         //Set a valid alias in the custom setting about Default Milestone Alias
         Milestone1_Settings__c setting = Milestone1_Settings__c.getInstance();
         if(setting == null){
-        	setting = new Milestone1_Settings__c();
+            setting = new Milestone1_Settings__c();
         }
         setting.Default_Milestone_Alias__c = ms1.Alias__c;
         upsert setting;
@@ -294,7 +294,7 @@ private class Milestone1_Email_Handler_Tst {
         email.plainTextBody = taskDescription;
         email.fromAddress = users.get(0).Email;
         email.toAddresses = new List<String>{users.get(0).Email};
-        email.subject = ' --- '+taskName;
+        email.subject = ' --- ' + taskName;
 
         Test.startTest();
         Milestone1_Email_Handler emailHandler = new Milestone1_Email_Handler();
@@ -305,7 +305,7 @@ private class Milestone1_Email_Handler_Tst {
 
         system.assert(createdTasks != null);
         system.assert(testResult.success);
-        system.assert(createdTasks.size()>0);
+        system.assert(createdTasks.size() > 0);
         system.assert(createdTasks.get(0).Description__c == taskDescription);
         system.assert(createdTasks.get(0).Assigned_To__c == users.get(0).Id);
     }
