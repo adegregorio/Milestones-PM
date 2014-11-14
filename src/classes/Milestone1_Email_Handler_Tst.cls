@@ -28,10 +28,12 @@ OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 @isTest
 private class Milestone1_Email_Handler_Tst {
-    //Test 1 Task created for valid email without attachments
-    static testMethod void testEmailWithoutAttachments()
-    {
 
+    private static String taskName = 'UNIT TEST EMAIL';
+    private static String taskDescription = 'Unit Test Body: ' + Date.today();
+
+    //Test 1 Task created for valid email without attachments
+    static testMethod void testEmailWithoutAttachments() {
         Milestone1_Project__c proj = Milestone1_Test_Utility.sampleProject('proj');
         insert proj;
 
@@ -52,7 +54,18 @@ private class Milestone1_Email_Handler_Tst {
         Milestone1_Email_Handler emailHandler = new Milestone1_Email_Handler();
         Messaging.InboundEmailResult testResult = emailHandler.handleInboundEmail(email, env);
 
-        List<Milestone1_Task__c> createdTasks = [Select Id, Name, Summary__c, Description__c, Assigned_To__c from Milestone1_Task__c where Project_Milestone__c = :ms1.Id];
+        List<Milestone1_Task__c> createdTasks = [
+            SELECT
+                Id,
+                Name,
+                Summary__c,
+                Description__c,
+                Assigned_To__c
+            FROM
+                Milestone1_Task__c
+            WHERE
+                Project_Milestone__c = :ms1.Id
+        ];
 
         system.assert(createdTasks != null);
         system.assert(testResult.success);
@@ -60,11 +73,8 @@ private class Milestone1_Email_Handler_Tst {
         system.assert(createdTasks.get(0).Assigned_To__c == users.get(0).Id);
     }
 
-
     //Test 1 Task created for valid email with 2 attachments, 1 Text and 1 Binary
-    static testMethod void testEmailWithAttachments()
-    {
-
+    static testMethod void testEmailWithAttachments() {
         Milestone1_Project__c proj = Milestone1_Test_Utility.sampleProject('proj');
         insert proj;
 
@@ -78,12 +88,15 @@ private class Milestone1_Email_Handler_Tst {
         Messaging.InboundEmail email = new Messaging.InboundEmail();
         Messaging.InboundEnvelope env = new Messaging.InboundEnvelope();
 
-        Messaging.Inboundemail.Binaryattachment binaryAttachment = new Messaging.Inboundemail.Binaryattachment();
+        Messaging.Inboundemail.Binaryattachment binaryAttachment =
+            new Messaging.Inboundemail.Binaryattachment();
         binaryAttachment.body = Blob.valueOf('UNIT TEST BINARY ATTACHMENT');
         binaryAttachment.fileName = 'A_UnitTest.gif';
-        email.binaryAttachments = new List<Messaging.Inboundemail.Binaryattachment>{binaryAttachment};
+        email.binaryAttachments =
+            new List<Messaging.Inboundemail.Binaryattachment>{binaryAttachment};
 
-        Messaging.Inboundemail.Textattachment textAttachment = new Messaging.Inboundemail.Textattachment();
+        Messaging.Inboundemail.Textattachment textAttachment =
+            new Messaging.Inboundemail.Textattachment();
         textAttachment.body = 'Unit Test XYZ ABC 123';
         textAttachment.fileName = 'B_UnitTest.txt';
         email.textAttachments = new List<Messaging.Inboundemail.Textattachment>{textAttachment};
@@ -96,24 +109,41 @@ private class Milestone1_Email_Handler_Tst {
         Milestone1_Email_Handler emailHandler = new Milestone1_Email_Handler();
         Messaging.InboundEmailResult testResult = emailHandler.handleInboundEmail(email, env);
 
-        List<Milestone1_Task__c> createdTasks = [Select Id, Name, Summary__c, Description__c, Assigned_To__c from Milestone1_Task__c where Project_Milestone__c = :ms1.Id];
+        List<Milestone1_Task__c> createdTasks = [
+            SELECT
+                Id,
+                Name,
+                Summary__c,
+                Description__c,
+                Assigned_To__c
+            FROM
+                Milestone1_Task__c
+            WHERE
+                Project_Milestone__c = :ms1.Id
+        ];
 
         system.assert(createdTasks != null);
         system.assert(testResult.success);
         system.assert(createdTasks.size() == 1);
         system.assert(createdTasks.get(0).Assigned_To__c == users.get(0).Id);
 
-        List<Attachment> attachments = [Select Id, Name from Attachment where parentId = :createdTasks.get(0).Id order by Name];
+        List<Attachment> attachments = [
+            SELECT
+                Id,
+                Name
+            FROM
+                Attachment
+            WHERE
+                parentId = :createdTasks.get(0).Id
+            ORDER BY
+                Name
+        ];
         system.assert(attachments.size() == 2);
         system.assert(attachments.get(0).Name == 'A_UnitTest.gif');
         system.assert(attachments.get(1).Name == 'B_UnitTest.txt');
-
     }
 
-
-    static testMethod void testEmailNoUsersFound()
-    {
-
+    static testMethod void testEmailNoUsersFound() {
         Milestone1_Project__c proj = Milestone1_Test_Utility.sampleProject('proj');
         insert proj;
 
@@ -131,15 +161,24 @@ private class Milestone1_Email_Handler_Tst {
         Milestone1_Email_Handler emailHandler = new Milestone1_Email_Handler();
         Messaging.InboundEmailResult testResult = emailHandler.handleInboundEmail(email, env);
 
-        List<Milestone1_Task__c> createdTasks = [Select Id, Name, Summary__c, Description__c, Assigned_To__c from Milestone1_Task__c where Project_Milestone__c = :ms1.Id];
+        List<Milestone1_Task__c> createdTasks = [
+            SELECT
+                Id,
+                Name,
+                Summary__c,
+                Description__c,
+                Assigned_To__c
+            FROM
+                Milestone1_Task__c
+            WHERE
+                Project_Milestone__c = :ms1.Id
+        ];
 
         system.assert(createdTasks.size() == 0);
         system.assert(!testResult.success);
     }
 
-    static testMethod void testNoSubject()
-    {
-
+    static testMethod void testNoSubject() {
         Milestone1_Project__c proj = Milestone1_Test_Utility.sampleProject('proj');
         insert proj;
 
@@ -159,15 +198,24 @@ private class Milestone1_Email_Handler_Tst {
         Milestone1_Email_Handler emailHandler = new Milestone1_Email_Handler();
         Messaging.InboundEmailResult testResult = emailHandler.handleInboundEmail(email, env);
 
-        List<Milestone1_Task__c> createdTasks = [Select Id, Name, Summary__c, Description__c, Assigned_To__c from Milestone1_Task__c where Project_Milestone__c = :ms1.Id];
-
+        List<Milestone1_Task__c> createdTasks = [
+            SELECT
+                Id,
+                Name,
+                Summary__c,
+                Description__c,
+                Assigned_To__c
+            FROM
+                Milestone1_Task__c
+            WHERE
+                Project_Milestone__c = :ms1.Id
+        ];
         system.assert(createdTasks.size() == 0);
         system.assert(!testResult.success);
         system.assert(testResult.message == Milestone1_Email_Handler.ERROR_SUBJECT_MISSING);
     }
 
-    static testMethod void testEmailAliasNotFound()
-    {
+    static testMethod void testEmailAliasNotFound() {
         Milestone1_Project__c proj = Milestone1_Test_Utility.sampleProject('proj');
         insert proj;
 
@@ -183,22 +231,32 @@ private class Milestone1_Email_Handler_Tst {
         email.plainTextBody = 'Unit Test Body: ' + Date.today();
         email.fromAddress = users.get(0).Email;
         email.toAddresses = new List<String>{users.get(0).Email};
-        // Testing Alias #9XZ$@%? which should not exist. If it exists change to some crazy random alias that doesn't match.
+        // Testing Alias #9XZ$@%? which should not exist.
+        // If it exists change to some crazy random alias that doesn't match.
         email.subject = '#9XZ$@%?' + ' --- UNIT TEST EMAIL 123XXXYYYZZZ';
 
         Milestone1_Email_Handler emailHandler = new Milestone1_Email_Handler();
         Messaging.InboundEmailResult testResult = emailHandler.handleInboundEmail(email, env);
 
-        List<Milestone1_Task__c> createdTasks = [Select Id, Name, Summary__c, Description__c, Assigned_To__c from Milestone1_Task__c where Project_Milestone__c = :ms1.Id];
+        List<Milestone1_Task__c> createdTasks = [
+            SELECT
+                Id,
+                Name,
+                Summary__c,
+                Description__c,
+                Assigned_To__c
+            FROM
+                Milestone1_Task__c
+            WHERE
+                Project_Milestone__c = :ms1.Id
+        ];
 
         system.assert(createdTasks.size() == 0);
         system.assert(!testResult.success);
         system.assert(testResult.message == Milestone1_Email_Handler.ERROR_ALIAS_NOT_FOUND);
     }
 
-    static testMethod void testReplyEmailWithoutAttachmentsCreateNote()
-    {
-        String taskName = 'Unit Test Email Notes 123';
+    static testMethod void testReplyEmailWithoutAttachmentsCreateNote() {
         Milestone1_Project__c proj = Milestone1_Test_Utility.sampleProject('proj');
         insert proj;
 
@@ -220,7 +278,7 @@ private class Milestone1_Email_Handler_Tst {
         email.fromAddress = users.get(0).Email;
         email.inReplyTo = msTask1.Email_GUID__c;
         email.toAddresses = new List<String>{users.get(0).Email};
-        email.subject = ms1.Alias__c + ' --- '+taskName;
+        email.subject = ms1.Alias__c + ' --- ' + taskName;
 
         Milestone1_Email_Handler emailHandler = new Milestone1_Email_Handler();
         Messaging.InboundEmailResult testResult = emailHandler.handleInboundEmail(email, env);
@@ -232,9 +290,7 @@ private class Milestone1_Email_Handler_Tst {
         system.assert(testResult.success);
     }
 
-    static testMethod void testReplyEmailWithoutAttachmentsCreateNoteFail()
-    {
-        String taskName = 'Unit Test Email Notes 123';
+    static testMethod void testReplyEmailWithoutAttachmentsCreateNoteFail() {
         Milestone1_Project__c proj = Milestone1_Test_Utility.sampleProject('proj');
         insert proj;
 
@@ -267,10 +323,7 @@ private class Milestone1_Email_Handler_Tst {
         system.assert(testResult.success);
     }
 
-    static testMethod void testNoAliasWithDefaultMilestoneAlias()
-    {
-        String taskName = 'UNIT TEST EMAIL';
-        String taskDescription = 'Unit Test Body: ' + Date.today();
+    static testMethod void testNoAliasWithDefaultMilestoneAlias() {
         Milestone1_Project__c proj = Milestone1_Test_Utility.sampleProject('proj');
         insert proj;
 
@@ -278,15 +331,17 @@ private class Milestone1_Email_Handler_Tst {
         ms1.Alias__c = 'unit_test';
         insert ms1;
 
-        //Set a valid alias in the custom setting about Default Milestone Alias
-        Milestone1_Settings__c setting = Milestone1_Settings__c.getInstance();
-        if(setting == null){
+        // Set a valid alias in the custom setting about Default Milestone Alias
+        PostInstallScript postinstall = new PostInstallScript();
+        Test.testInstall(postinstall, null);
+        Milestone1_Settings__c setting = Milestone1_Settings__c.getOrgDefaults();
+        if (setting == null) {
             setting = new Milestone1_Settings__c();
         }
         setting.Default_Milestone_Alias__c = ms1.Alias__c;
         upsert setting;
 
-        //We cannot create Users without using licenses, so query and grab first active user
+        // We cannot create Users without using licenses, so query and grab first active user
         List<User> users = [Select Id, Email from User where isActive = true limit 1];
 
         Messaging.InboundEmail email = new Messaging.InboundEmail();
@@ -300,8 +355,18 @@ private class Milestone1_Email_Handler_Tst {
         Milestone1_Email_Handler emailHandler = new Milestone1_Email_Handler();
         Messaging.InboundEmailResult testResult = emailHandler.handleInboundEmail(email, env);
         Test.stopTest();
-        List<Milestone1_Task__c> createdTasks = [Select Name, Summary__c, Description__c, Assigned_To__c
-        										 from Milestone1_Task__c where Summary__c=:taskName and Project_Milestone__c =: ms1.Id];
+        List<Milestone1_Task__c> createdTasks = [
+            SELECT
+                Name,
+                Summary__c,
+                Description__c,
+                Assigned_To__c
+            FROM
+                Milestone1_Task__c
+            WHERE
+                Summary__c = :taskName
+                AND Project_Milestone__c = :ms1.Id
+        ];
 
         system.assert(createdTasks != null);
         system.assert(testResult.success);
@@ -310,11 +375,8 @@ private class Milestone1_Email_Handler_Tst {
         system.assert(createdTasks.get(0).Assigned_To__c == users.get(0).Id);
     }
 
-    static testMethod void testForward()
-    {
-        String taskName = 'UNIT TEST EMAIL';
+    static testMethod void testForward() {
         String milestoneAlias = 'unit_test';
-        String taskDescription = 'Unit Test Body: ' + Date.today();
         Milestone1_Project__c proj = Milestone1_Test_Utility.sampleProject('proj');
         insert proj;
 
@@ -336,8 +398,7 @@ private class Milestone1_Email_Handler_Tst {
         Milestone1_Email_Handler emailHandler = new Milestone1_Email_Handler();
         Messaging.InboundEmailResult testResult = emailHandler.handleInboundEmail(email, env);
         Test.stopTest();
-        List<Milestone1_Task__c> createdTasks = [Select Id
-        										 from Milestone1_Task__c where Summary__c=:taskName and Project_Milestone__c =: ms1.Id];
+        List<Milestone1_Task__c> createdTasks = [Select Id from Milestone1_Task__c where Summary__c=:taskName and Project_Milestone__c =: ms1.Id];
 
         system.assert(createdTasks != null);
         system.assert(createdTasks.size()>0);
@@ -346,7 +407,6 @@ private class Milestone1_Email_Handler_Tst {
     static testMethod void testEmailNoTask()
     {
         String milestoneAlias = 'unit_test';
-        String taskDescription = 'Unit Test Body: ' + Date.today();
         Milestone1_Project__c proj = Milestone1_Test_Utility.sampleProject('proj');
         insert proj;
 

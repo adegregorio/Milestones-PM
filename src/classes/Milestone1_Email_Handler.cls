@@ -48,109 +48,130 @@ global class Milestone1_Email_Handler implements Messaging.InboundEmailHandler
     public static String ERROR_SUBJECT_MISSING_TASK	 = system.label.Milestone1_SubjectMissingTask;
     public static String ERROR_SUBJECT_MISSING = system.label.Milestone1_SubjectMissing;
 
-    global Messaging.InboundEmailResult handleInboundEmail(Messaging.InboundEmail email, Messaging.InboundEnvelope envelope)
-    {
+    global Messaging.InboundEmailResult handleInboundEmail(
+            Messaging.InboundEmail email,
+            Messaging.InboundEnvelope envelope
+    ) {
         Messaging.InboundEmailResult result = new Messaging.InboundEmailresult();
-        if(email.inReplyTo != null && email.inReplyTo.length() > 0)
-        {
+        if (email.inReplyTo != null && email.inReplyTo.length() > 0) {
             result = processReplyEmail(email);
-        }else
-        {
+        } else {
             result = processNewEmail(email);
         }
 
         return result;
     }
 
-    public static Messaging.InboundEmailResult processReplyEmail(Messaging.InboundEmail email)
-    {
-        system.debug('Process a Reply Email. Reply ID ' + email.inReplyTo);
-        system.debug('plainTextBodyIsTruncated == ' + email.plainTextBodyIsTruncated);
+    public static Messaging.InboundEmailResult processReplyEmail(
+            Messaging.InboundEmail email
+    ) {
         Messaging.InboundEmailResult result = new Messaging.InboundEmailresult();
 
-        //processing the subject
-        List<String> processedSubjectLine = Milestone1_Email_Handler.processSubject(email.subject);
+        // processing the subject
+        List<String> processedSubjectLine =
+            Milestone1_Email_Handler.processSubject(email.subject);
         String milestoneAliasName = processedSubjectLine.get(0);
         String taskName = processedSubjectLine.get(1);
-        Milestone1_Milestone__c milestone = Milestone1_Email_Handler.getMilestone(milestoneAliasName);
+        Milestone1_Milestone__c milestone =
+            Milestone1_Email_Handler.getMilestone(milestoneAliasName);
 
-        List<Milestone1_Task__c> matchingTasks = [Select Id from Milestone1_Task__c where Summary__c =:taskName and
-        										  Project_Milestone__c =:milestone.Id limit 1];
+        List<Milestone1_Task__c> matchingTasks = [
+            SELECT
+                Id
+            FROM
+                Milestone1_Task__c
+            WHERE
+                Summary__c = :taskName
+                AND Project_Milestone__c = :milestone.Id
+            LIMIT 1
+        ];
 
-        if(matchingTasks == null || matchingTasks.size() == 0)
-        {
-        	//As no task was found, assume that it is a forward
-        	processNewEmail(email);
-        }else
-        {
-        	//otherwise it is a reply
+        if (matchingTasks == null || matchingTasks.size() == 0) {
+            // As no task was found, assume that it is a forward
+            processNewEmail(email);
+        } else {
+            // otherwise it is a reply
             Milestone1_Email_Handler.insertNote(matchingTasks.get(0),email);
             Milestone1_Email_Handler.insertAttachments(matchingTasks.get(0),email);
             Milestone1_Email_Handler.updateMilestoneTask(matchingTasks.get(0),email);
         }
-        result.success =  true;
+        result.success = true;
         return result;
     }
 
-    public static Messaging.InboundEmailResult processNewEmail(Messaging.InboundEmail email)
-    {
-        system.debug('Process a new Email');
+    public static Messaging.InboundEmailResult processNewEmail(
+            Messaging.InboundEmail email
+    ) {
         Messaging.InboundEmailResult result = new Messaging.InboundEmailresult();
         Milestone1_Milestone__c milestone;
-        system.debug('Email In Reply To: ' + email.inReplyTo);
-        system.debug('Email Message Id: ' + email.messageId);
-        List<User> fromUsers = [Select Id from User where isActive = true and Email = :email.fromAddress];
         String firstEmail;
-        if(email.toAddresses != null && email.toAddresses.size() > 0)
-        {
-            firstEmail = Milestone1_Email_Handler.parseAddress(email.toAddresses.get(0));
-            system.debug('First Email == ' + firstEmail);
-        }
-        List<User> toUsers = [Select Id from User where isActive = true and Email = :firstEmail];
+        List<User> fromUsers = [
+            SELECT
+                Id
+            FROM
+                User
+            WHERE
+                isActive = true
+                AND Email = :email.fromAddress
+        ];
 
-        if(fromUsers.size() == 0)
-        {
+        if (email.toAddresses != null && email.toAddresses.size() > 0) {
+            firstEmail =
+                Milestone1_Email_Handler.parseAddress(email.toAddresses.get(0));
+        }
+
+        List<User> toUsers = [
+            SELECT
+                Id
+            FROM
+                User
+            WHERE
+                isActive = true
+                AND Email = :firstEmail
+        ];
+
+        if (fromUsers.size() == 0) {
             result.message = ERROR_FROM_USER_NOT_FOUND;
             result.success = false;
-        }else if(toUsers.size() == 0)
-        {
+        } else if(toUsers.size() == 0) {
             result.message = ERROR_TO_USER_NOT_FOUND;
             result.success = false;
-        }else if(email.subject == null){
-        	result.message = ERROR_SUBJECT_MISSING;
-        	result.success = false;
-        }else
-        {
-        	//processing the subject
-            List<String> processedSubjectLine = Milestone1_Email_Handler.processSubject(email.subject);
+        } else if(email.subject == null) {
+            result.message = ERROR_SUBJECT_MISSING;
+            result.success = false;
+        } else {
+            // processing the subject
+            List<String> processedSubjectLine =
+                Milestone1_Email_Handler.processSubject(email.subject);
             String milestoneAliasName = processedSubjectLine.get(0);
             String taskName = processedSubjectLine.get(1);
-            if(taskName == ''){
+            if (taskName == '') {
             	//Reject code here as there is no task.
                 result.message = ERROR_SUBJECT_MISSING_TASK;
                 result.success = false;
-            }else
-            {
-                System.debug('Find the Milestone for Alias: ' + milestoneAliasName);
-                if(milestoneAliasName == ''){
-					milestoneAliasName = Milestone1_Settings__c.getOrgDefaults().Default_Milestone_Alias__c;
-					if(milestoneAliasName == ''){
-						result.message = ERROR_SUBJECT_MISSING_ALIAS;
-						result.success = false;
-					}
+            } else {
+                if (milestoneAliasName == '') {
+                    milestoneAliasName =
+                        Milestone1_Settings__c.getOrgDefaults().Default_Milestone_Alias__c;
+                    if (milestoneAliasName == '') {
+                        result.message = ERROR_SUBJECT_MISSING_ALIAS;
+                        result.success = false;
+                    }
                 }
 
                 milestone = Milestone1_Email_Handler.getMilestone(milestoneAliasName);
-                if(milestone == null)
-                {
+                if (milestone == null) {
                     //Reject code here as the alias was not found.
                     result.message = ERROR_ALIAS_NOT_FOUND;
                     result.success = false;
-                }else
-                {
-
-                    Milestone1_Task__c newTask = Milestone1_Email_Handler.insertMilestoneTask(toUsers,milestone,email,taskName);
-                    Milestone1_Email_Handler.insertAttachments(newTask,email);
+                } else {
+                    Milestone1_Task__c newTask = Milestone1_Email_Handler.insertMilestoneTask(
+                        toUsers,
+                        milestone,
+                        email,
+                        taskName
+                    );
+                    Milestone1_Email_Handler.insertAttachments(newTask, email);
                     result.success = true;
                 }
             }
@@ -158,8 +179,12 @@ global class Milestone1_Email_Handler implements Messaging.InboundEmailHandler
         return result;
     }
 
-    public static Milestone1_Task__c insertMilestoneTask(List<User> toUsers, Milestone1_Milestone__c milestone, Messaging.InboundEmail email, String taskName)
-    {
+    public static Milestone1_Task__c insertMilestoneTask(
+            List<User> toUsers,
+            Milestone1_Milestone__c milestone,
+            Messaging.InboundEmail email,
+            String taskName
+    ) {
         Milestone1_Task__c newTask = new Milestone1_Task__c();
         newTask.Assigned_To__c = toUsers.get(0).Id;
         newTask.Project_Milestone__c = milestone.Id;
